@@ -20,6 +20,7 @@
 		42EE588824F20B3D009053A9 /* PlantDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE588724F20B3D009053A9 /* PlantDetailsViewController.swift */; };
 		42EE588A24F20B95009053A9 /* CreateExibitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE588924F20B95009053A9 /* CreateExibitionViewController.swift */; };
 		42EE588C24F20C02009053A9 /* AddPlantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE588B24F20C02009053A9 /* AddPlantViewController.swift */; };
+		42EE588E24F21057009053A9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE588D24F21057009053A9 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		42EE588724F20B3D009053A9 /* PlantDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailsViewController.swift; sourceTree = "<group>"; };
 		42EE588924F20B95009053A9 /* CreateExibitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExibitionViewController.swift; sourceTree = "<group>"; };
 		42EE588B24F20C02009053A9 /* AddPlantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantViewController.swift; sourceTree = "<group>"; };
+		42EE588D24F21057009053A9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				42EE588724F20B3D009053A9 /* PlantDetailsViewController.swift */,
 				42EE588924F20B95009053A9 /* CreateExibitionViewController.swift */,
 				42EE588B24F20C02009053A9 /* AddPlantViewController.swift */,
+				42EE588D24F21057009053A9 /* HomeViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				42EE587B24F169A9009053A9 /* AllExibitionViewController.swift in Sources */,
 				42EE588624F17AA5009053A9 /* ExibitionDetailsViewController.swift in Sources */,
 				42EE588A24F20B95009053A9 /* CreateExibitionViewController.swift in Sources */,
+				42EE588E24F21057009053A9 /* HomeViewController.swift in Sources */,
 				42EE587D24F16B02009053A9 /* AllExibitionTableCell.swift in Sources */,
 				42EE588824F20B3D009053A9 /* PlantDetailsViewController.swift in Sources */,
 				425EB2F324ECF183008AD18B /* SceneDelegate.swift in Sources */,
