@@ -21,4 +21,27 @@ class Utilities{
     }
     
     
+    static func callTerfeleForPlants(url:String?){
+        
+        guard let url = url else {return}
+        
+        if let url = URL(string: url)
+        {
+            URLSession.shared.dataTask(with:url) { (data, response, error) in
+                let jsonDecoder = JSONDecoder()
+                guard let data = data else {return}
+                do{
+                    let response = try jsonDecoder.decode(Plants.self, from: data)
+                } catch {
+                    
+                }
+
+            }.resume()
+        }
+        
+    }
+    
+    
+    
+    
 }

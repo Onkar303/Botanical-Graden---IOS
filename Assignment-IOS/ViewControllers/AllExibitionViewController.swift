@@ -21,7 +21,6 @@ class AllExibitionViewController:UIViewController{
     
     //MARK: - Attaching Delegates
     func attachDelegates(){
-        
         allExibitionTableView.delegate = self
         allExibitionTableView.dataSource = self
         
@@ -30,7 +29,6 @@ class AllExibitionViewController:UIViewController{
     
     //MARK: - Attach Search Controller
     func attachSearchController(){
-        
         let searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
@@ -61,16 +59,12 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = AllExibitionTableCell()
-        
         cell.textLabel?.text = "Cell"
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
         present(Utilities.customAlertController(title:"custom", message:"Message"), animated: true, completion: nil)
     }
 }
