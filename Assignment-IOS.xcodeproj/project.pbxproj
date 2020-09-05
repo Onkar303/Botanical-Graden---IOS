@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4208010E24FFA64C00C20804 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4208010D24FFA64C00C20804 /* Constants.swift */; };
 		4208011124FFAA9000C20804 /* Plants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4208011024FFAA9000C20804 /* Plants.swift */; };
+		4242431F25039C9700B3C1C0 /* focusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4242431E25039C9700B3C1C0 /* focusDelegate.swift */; };
+		424243232503B2F900B3C1C0 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424243222503B2F900B3C1C0 /* LocationViewController.swift */; };
+		424243252503C01C00B3C1C0 /* AddPlantTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424243242503C01C00B3C1C0 /* AddPlantTableCell.swift */; };
 		425EB2F124ECF183008AD18B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425EB2F024ECF183008AD18B /* AppDelegate.swift */; };
 		425EB2F324ECF183008AD18B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425EB2F224ECF183008AD18B /* SceneDelegate.swift */; };
 		425EB2F824ECF183008AD18B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425EB2F624ECF183008AD18B /* Main.storyboard */; };
@@ -28,6 +31,9 @@
 /* Begin PBXFileReference section */
 		4208010D24FFA64C00C20804 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4208011024FFAA9000C20804 /* Plants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plants.swift; sourceTree = "<group>"; };
+		4242431E25039C9700B3C1C0 /* focusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = focusDelegate.swift; sourceTree = "<group>"; };
+		424243222503B2F900B3C1C0 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		424243242503C01C00B3C1C0 /* AddPlantTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantTableCell.swift; sourceTree = "<group>"; };
 		425EB2ED24ECF183008AD18B /* Assignment-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assignment-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		425EB2F024ECF183008AD18B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		425EB2F224ECF183008AD18B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +115,7 @@
 				42EE588924F20B95009053A9 /* CreateExibitionViewController.swift */,
 				42EE588B24F20C02009053A9 /* AddPlantViewController.swift */,
 				42EE588D24F21057009053A9 /* HomeViewController.swift */,
+				424243222503B2F900B3C1C0 /* LocationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -117,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				42EE587C24F16B02009053A9 /* AllExibitionTableCell.swift */,
+				424243242503C01C00B3C1C0 /* AddPlantTableCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -124,6 +132,7 @@
 		42EE587E24F16FC3009053A9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				4242431E25039C9700B3C1C0 /* focusDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -216,9 +225,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				424243232503B2F900B3C1C0 /* LocationViewController.swift in Sources */,
 				42EE588C24F20C02009053A9 /* AddPlantViewController.swift in Sources */,
+				424243252503C01C00B3C1C0 /* AddPlantTableCell.swift in Sources */,
 				42EE588424F17200009053A9 /* Utilities.swift in Sources */,
 				425EB2F124ECF183008AD18B /* AppDelegate.swift in Sources */,
+				4242431F25039C9700B3C1C0 /* focusDelegate.swift in Sources */,
 				42EE588124F17038009053A9 /* Exibition.swift in Sources */,
 				42EE587B24F169A9009053A9 /* AllExibitionViewController.swift in Sources */,
 				42EE588624F17AA5009053A9 /* ExibitionDetailsViewController.swift in Sources */,

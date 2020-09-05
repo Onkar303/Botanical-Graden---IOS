@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Adding photos for exibition</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location required </string>
 	<key>CFBundleExecutable</key>

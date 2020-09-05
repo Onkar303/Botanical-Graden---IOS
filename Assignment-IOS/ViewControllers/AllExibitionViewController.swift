@@ -13,6 +13,8 @@ class AllExibitionViewController:UIViewController{
     
     @IBOutlet weak var allExibitionTableView: UITableView!
     
+    var focusDelegate : FocusDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         attachDelegates()
@@ -34,6 +36,12 @@ class AllExibitionViewController:UIViewController{
         navigationItem.hidesSearchBarWhenScrolling = true
         navigationController?.navigationBar.prefersLargeTitles = true
         
+    }
+    
+    
+    func configureUI(){
+        
+        self.navigationItem.largeTitleDisplayMode = .always
     }
     
     
@@ -59,12 +67,37 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = AllExibitionTableCell()
-        cell.textLabel?.text = "Cell"
+        let cell = tableView.dequeueReusableCell(withIdentifier:AllExibitionTableCell.cellIdentifier, for: indexPath) as! AllExibitionTableCell
+        
+        cell.plantNameLabel.text  = "Plant name"
+        cell.plantDescriptionLabel.text = "plant Description"
         return cell
     }
     
+    //MARK:- CELL CLICK
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        present(Utilities.customAlertController(title:"custom", message:"Message"), animated: true, completion: nil)
+        guard let focusDelegate = focusDelegate else {return}
+        focusDelegate.focusOnLocation()
+        navigationController?.popViewController(animated: true)
     }
+    
+    
+    //MARK:- CELL HEIGHT
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(exactly: 200)!
+    }
+    
+    
+    //MARK:- DELETE CELL
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+        }
+    }
+    
+    
+
+    
+    
+
 }

@@ -24,7 +24,6 @@ class Utilities{
     static func callTerfeleForPlants(url:String?){
         
         guard let url = url else {return}
-        
         if let url = URL(string: url)
         {
             URLSession.shared.dataTask(with:url) { (data, response, error) in

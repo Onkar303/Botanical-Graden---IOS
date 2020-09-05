@@ -22,9 +22,10 @@ class HomeViewController:UIViewController{
         super.viewDidLoad()
         locationManager.requestWhenInUseAuthorization()
         checkAutorization()
+        //configureUI()
     }
     
-    
+    //MARK:- CHECK AUTHORIZATION
     func checkAutorization(){
     
         switch CLLocationManager.authorizationStatus() {
@@ -33,7 +34,7 @@ class HomeViewController:UIViewController{
             break
         case .authorizedWhenInUse:
             configureMaps()
-            showFocusedLocation()
+            showFocusedLocation(locationManager: locationManager)
             addAnnotation()
             break
         case .denied:
@@ -47,7 +48,7 @@ class HomeViewController:UIViewController{
         }
     }
     
-    
+    //MARK:- CONFIGURE MAPS
     func configureMaps(){
         gardenMapView.showsUserLocation = true
         gardenMapView.delegate = self
@@ -55,6 +56,7 @@ class HomeViewController:UIViewController{
         
     }
     
+    //MARK:- ADDING ANNOTATIONS
     func addAnnotation(){
         
         let london = MKPointAnnotation()
@@ -66,42 +68,66 @@ class HomeViewController:UIViewController{
         
         let brighton = MKPointAnnotation()
         brighton.title = "Brighton"
-        brighton.subtitle = "This is brighton"
+        brighton.subtitle = "This is brighton and this is the best place in the entire country .. I love coming over here !!"
         brighton.coordinate = CLLocationCoordinate2D(latitude: 50.8225, longitude: 0.1372)
         gardenMapView.addAnnotation(brighton)
     }
     
-    
-    func showFocusedLocation(){
+    //MARK:- INITIAL FOCUS
+    func showFocusedLocation(locationManager:CLLocationManager){
         guard let location = locationManager.location?.coordinate else {return}
         let coordinates = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
         let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10000, longitudinalMeters: 10000)
-        
         gardenMapView.setRegion(region, animated: true)
+    }
+    
+    
+    //MARK:- CONFIGURE UI
+    func configureUI(){
+        self.navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    //MARK:- PREPARE FOR SEGUE
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        if segue.identifier == "allExibitionViewController"
+        {
+            let allExibitionViewController = segue.destination as! AllExibitionViewController
+            allExibitionViewController.focusDelegate = self;
+        }
     }
     
     
-    func addBottomSheet(){
-        let bottomSheet = PlantDetailsViewController()
-        self.addChild(bottomSheet)
-        self.view.addSubview(bottomSheet.view)
-        bottomSheet.didMove(toParent: self)
-
-        let height = view.frame.height
-        let width  = view.frame.width
-        bottomSheet.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+    //MARK:- SEGUE TO EXIBITION VIEW CONTROLLER
+    func segueExhibitionViewController(annotationView:MKAnnotationView){
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let exibitionDetailsController = storyboard.instantiateViewController(withIdentifier: "ExibitionViewController") as! ExibitionDetailsViewController
+      
+        guard let annotation = annotationView.annotation else {return}
+        exibitionDetailsController.exibitionAnnotation = annotation
+        
+        guard let exibitionName = annotation.title else {return}
+        exibitionDetailsController.exibitionName = exibitionName
+        
+        guard let exibitionDescription = annotation.subtitle else {return}
+        exibitionDetailsController.exibitionDescription = exibitionDescription
+        
+        self.navigationController?.pushViewController(exibitionDetailsController, animated: true)
     }
+    
     
     
 }
 
 
+//MARK:- MAPVIEW DELEGATE
 extension HomeViewController:MKMapViewDelegate{
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        segueExhibitionViewController(annotationView: view)
         
-        present(Utilities.customAlertController(title: "Clicked", message: "yes"),animated: true)
+       
+        
     }
     
    
@@ -109,14 +135,15 @@ extension HomeViewController:MKMapViewDelegate{
 
 
 
+extension HomeViewController:FocusDelegate{
+    func focusOnLocation() {
+        
+    }
+    
+}
 
 //MARK:- Life Cycle Methods
 extension HomeViewController{
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        addBottomSheet()
-        
-    }
     
 }
