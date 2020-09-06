@@ -8,13 +8,13 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 class AllExibitionViewController:UIViewController{
     
     @IBOutlet weak var allExibitionTableView: UITableView!
     
     var focusDelegate : FocusDelegate?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         attachDelegates()
@@ -63,7 +63,7 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,7 +77,7 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     //MARK:- CELL CLICK
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let focusDelegate = focusDelegate else {return}
-        focusDelegate.focusOnLocation()
+        focusDelegate.focusOnLocation(annotation:MKPointAnnotation())
         navigationController?.popViewController(animated: true)
     }
     

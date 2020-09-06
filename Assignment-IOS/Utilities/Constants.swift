@@ -13,6 +13,5 @@ class Constants {
     
     static let TOKEN = "SQhf0-VJeF6U9_t2F5MKRe3hPU8_N7sXSdsqyo3kXvY"
     static let BASE_URL = "https://trefle.io/api/v1/plants?token="
-    
-    
+    static let CORNER_RAIUS = 5
 }

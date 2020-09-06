@@ -76,8 +76,8 @@ class HomeViewController:UIViewController{
         
         let melbourne = MKPointAnnotation()
         melbourne.title = "Melbourne"
-        melbourne.subtitle = "This is Melbourne and this is the best place in the entire country .. I love coming over here !!"
-        melbourne.coordinate = CLLocationCoordinate2D(latitude: 144.9631, longitude: 37.8136)
+        melbourne.subtitle = "If you're visiting this page, you're likely here because you're searching for a random sentence. Sometimes a random word just isn't enough, and that is where the random sentence generator comes into play. By inputting the desired number, you can make a list of as many random sentences as you want or need. Producing random sentences can be helpful in a number of different ways."
+        melbourne.coordinate = CLLocationCoordinate2D(latitude:37.8136, longitude: 144.9631)
         gardenMapView.addAnnotation(melbourne)
         
     }
@@ -168,9 +168,10 @@ extension HomeViewController:CLLocationManagerDelegate{
 
 
 extension HomeViewController:FocusDelegate{
-    func focusOnLocation() {
-        
+    func focusOnLocation(annotation: MKPointAnnotation) {
+        gardenMapView.setRegion(MKCoordinateRegion(center:annotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
     }
+    
     
 }
 

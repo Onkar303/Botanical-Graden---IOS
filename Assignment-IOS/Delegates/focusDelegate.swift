@@ -10,6 +10,6 @@ import Foundation
 import MapKit
 
 protocol FocusDelegate:AnyObject{
-    func focusOnLocation()
+    func focusOnLocation(annotation:MKPointAnnotation)
     
 }
