@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mmR-qg-ORk">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Create Exibition-->
+        <scene sceneID="xOA-jL-2GJ">
+            <objects>
+                <viewController id="mmR-qg-ORk" customClass="CreateExibitionViewController" customModule="Assignment_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iVg-T7-856">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="2MZ-qH-W69">
+                                <rect key="frame" x="0.0" y="44" width="414" height="269"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="2MZ-qH-W69" firstAttribute="top" secondItem="FnK-dm-US5" secondAttribute="top" id="5gu-yR-Hxu"/>
+                            <constraint firstItem="FnK-dm-US5" firstAttribute="trailing" secondItem="2MZ-qH-W69" secondAttribute="trailing" id="T7R-9a-m1N"/>
+                            <constraint firstItem="2MZ-qH-W69" firstAttribute="height" secondItem="iVg-T7-856" secondAttribute="height" multiplier="0.3" id="kcW-a3-Ssp"/>
+                            <constraint firstItem="2MZ-qH-W69" firstAttribute="leading" secondItem="FnK-dm-US5" secondAttribute="leading" id="lA7-4u-wD8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="FnK-dm-US5"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Create Exibition" id="oPQ-aS-bDE"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="scA-0p-BZx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2253.6231884057975" y="-441.29464285714283"/>
+        </scene>
+    </scenes>
+</document>

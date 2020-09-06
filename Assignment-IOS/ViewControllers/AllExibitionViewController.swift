@@ -68,7 +68,7 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier:AllExibitionTableCell.cellIdentifier, for: indexPath) as! AllExibitionTableCell
-        
+        cell.accessoryType = .disclosureIndicator
         cell.plantNameLabel.text  = "Plant name"
         cell.plantDescriptionLabel.text = "plant Description"
         return cell

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4208010E24FFA64C00C20804 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4208010D24FFA64C00C20804 /* Constants.swift */; };
 		4208011124FFAA9000C20804 /* Plants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4208011024FFAA9000C20804 /* Plants.swift */; };
-		4242431F25039C9700B3C1C0 /* focusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4242431E25039C9700B3C1C0 /* focusDelegate.swift */; };
+		4242431F25039C9700B3C1C0 /* FocusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4242431E25039C9700B3C1C0 /* FocusDelegate.swift */; };
 		424243232503B2F900B3C1C0 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424243222503B2F900B3C1C0 /* LocationViewController.swift */; };
 		424243252503C01C00B3C1C0 /* AddPlantTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424243242503C01C00B3C1C0 /* AddPlantTableCell.swift */; };
 		425EB2F124ECF183008AD18B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425EB2F024ECF183008AD18B /* AppDelegate.swift */; };
@@ -17,6 +17,13 @@
 		425EB2F824ECF183008AD18B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425EB2F624ECF183008AD18B /* Main.storyboard */; };
 		425EB2FA24ECF186008AD18B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 425EB2F924ECF186008AD18B /* Assets.xcassets */; };
 		425EB2FD24ECF186008AD18B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425EB2FB24ECF186008AD18B /* LaunchScreen.storyboard */; };
+		426A1E912504DFE90047E903 /* AddPlantDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426A1E902504DFE90047E903 /* AddPlantDelegate.swift */; };
+		426A1E93250511CE0047E903 /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426A1E92250511CE0047E903 /* CircularImageView.swift */; };
+		426A1E952505360D0047E903 /* CreateExibitionStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E942505360D0047E903 /* CreateExibitionStoryBoard.storyboard */; };
+		426A1E97250537230047E903 /* AllExibitionsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E96250537230047E903 /* AllExibitionsStoryBoard.storyboard */; };
+		426A1E99250538940047E903 /* PlantDetailsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E98250538940047E903 /* PlantDetailsStoryBoard.storyboard */; };
+		426A1E9B250538F10047E903 /* AddPlantsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E9A250538F10047E903 /* AddPlantsStoryBoard.storyboard */; };
+		426A1E9D2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E9C2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard */; };
 		42EE587B24F169A9009053A9 /* AllExibitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE587A24F169A9009053A9 /* AllExibitionViewController.swift */; };
 		42EE587D24F16B02009053A9 /* AllExibitionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE587C24F16B02009053A9 /* AllExibitionTableCell.swift */; };
 		42EE588124F17038009053A9 /* Exibition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE588024F17038009053A9 /* Exibition.swift */; };
@@ -31,7 +38,7 @@
 /* Begin PBXFileReference section */
 		4208010D24FFA64C00C20804 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4208011024FFAA9000C20804 /* Plants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plants.swift; sourceTree = "<group>"; };
-		4242431E25039C9700B3C1C0 /* focusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = focusDelegate.swift; sourceTree = "<group>"; };
+		4242431E25039C9700B3C1C0 /* FocusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDelegate.swift; sourceTree = "<group>"; };
 		424243222503B2F900B3C1C0 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		424243242503C01C00B3C1C0 /* AddPlantTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantTableCell.swift; sourceTree = "<group>"; };
 		425EB2ED24ECF183008AD18B /* Assignment-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assignment-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +48,13 @@
 		425EB2F924ECF186008AD18B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		425EB2FC24ECF186008AD18B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		425EB2FE24ECF186008AD18B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		426A1E902504DFE90047E903 /* AddPlantDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantDelegate.swift; sourceTree = "<group>"; };
+		426A1E92250511CE0047E903 /* CircularImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
+		426A1E942505360D0047E903 /* CreateExibitionStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateExibitionStoryBoard.storyboard; sourceTree = "<group>"; };
+		426A1E96250537230047E903 /* AllExibitionsStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AllExibitionsStoryBoard.storyboard; sourceTree = "<group>"; };
+		426A1E98250538940047E903 /* PlantDetailsStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PlantDetailsStoryBoard.storyboard; sourceTree = "<group>"; };
+		426A1E9A250538F10047E903 /* AddPlantsStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddPlantsStoryBoard.storyboard; sourceTree = "<group>"; };
+		426A1E9C2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExibitionDetailsStoryBoard.storyboard; sourceTree = "<group>"; };
 		42EE587A24F169A9009053A9 /* AllExibitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllExibitionViewController.swift; sourceTree = "<group>"; };
 		42EE587C24F16B02009053A9 /* AllExibitionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllExibitionTableCell.swift; sourceTree = "<group>"; };
 		42EE588024F17038009053A9 /* Exibition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exibition.swift; sourceTree = "<group>"; };
@@ -110,10 +124,15 @@
 			isa = PBXGroup;
 			children = (
 				42EE587A24F169A9009053A9 /* AllExibitionViewController.swift */,
+				426A1E96250537230047E903 /* AllExibitionsStoryBoard.storyboard */,
 				42EE588524F17AA5009053A9 /* ExibitionDetailsViewController.swift */,
+				426A1E9C2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard */,
 				42EE588724F20B3D009053A9 /* PlantDetailsViewController.swift */,
+				426A1E98250538940047E903 /* PlantDetailsStoryBoard.storyboard */,
 				42EE588924F20B95009053A9 /* CreateExibitionViewController.swift */,
+				426A1E942505360D0047E903 /* CreateExibitionStoryBoard.storyboard */,
 				42EE588B24F20C02009053A9 /* AddPlantViewController.swift */,
+				426A1E9A250538F10047E903 /* AddPlantsStoryBoard.storyboard */,
 				42EE588D24F21057009053A9 /* HomeViewController.swift */,
 				424243222503B2F900B3C1C0 /* LocationViewController.swift */,
 			);
@@ -132,7 +151,8 @@
 		42EE587E24F16FC3009053A9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
-				4242431E25039C9700B3C1C0 /* focusDelegate.swift */,
+				4242431E25039C9700B3C1C0 /* FocusDelegate.swift */,
+				426A1E902504DFE90047E903 /* AddPlantDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -150,6 +170,7 @@
 			children = (
 				42EE588324F17200009053A9 /* Utilities.swift */,
 				4208010D24FFA64C00C20804 /* Constants.swift */,
+				426A1E92250511CE0047E903 /* CircularImageView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -212,9 +233,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426A1E9B250538F10047E903 /* AddPlantsStoryBoard.storyboard in Resources */,
 				425EB2FD24ECF186008AD18B /* LaunchScreen.storyboard in Resources */,
 				425EB2FA24ECF186008AD18B /* Assets.xcassets in Resources */,
+				426A1E99250538940047E903 /* PlantDetailsStoryBoard.storyboard in Resources */,
 				425EB2F824ECF183008AD18B /* Main.storyboard in Resources */,
+				426A1E952505360D0047E903 /* CreateExibitionStoryBoard.storyboard in Resources */,
+				426A1E9D2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard in Resources */,
+				426A1E97250537230047E903 /* AllExibitionsStoryBoard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,12 +251,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426A1E912504DFE90047E903 /* AddPlantDelegate.swift in Sources */,
+				426A1E93250511CE0047E903 /* CircularImageView.swift in Sources */,
 				424243232503B2F900B3C1C0 /* LocationViewController.swift in Sources */,
 				42EE588C24F20C02009053A9 /* AddPlantViewController.swift in Sources */,
 				424243252503C01C00B3C1C0 /* AddPlantTableCell.swift in Sources */,
 				42EE588424F17200009053A9 /* Utilities.swift in Sources */,
 				425EB2F124ECF183008AD18B /* AppDelegate.swift in Sources */,
-				4242431F25039C9700B3C1C0 /* focusDelegate.swift in Sources */,
+				4242431F25039C9700B3C1C0 /* FocusDelegate.swift in Sources */,
 				42EE588124F17038009053A9 /* Exibition.swift in Sources */,
 				42EE587B24F169A9009053A9 /* AllExibitionViewController.swift in Sources */,
 				42EE588624F17AA5009053A9 /* ExibitionDetailsViewController.swift in Sources */,

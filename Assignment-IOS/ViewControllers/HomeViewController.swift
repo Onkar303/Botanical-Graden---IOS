@@ -22,7 +22,7 @@ class HomeViewController:UIViewController{
         super.viewDidLoad()
         locationManager.requestWhenInUseAuthorization()
         checkAutorization()
-        //configureUI()
+        configureUI()
     }
     
     //MARK:- CHECK AUTHORIZATION
@@ -52,6 +52,7 @@ class HomeViewController:UIViewController{
     func configureMaps(){
         gardenMapView.showsUserLocation = true
         gardenMapView.delegate = self
+        locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
     }
@@ -71,12 +72,20 @@ class HomeViewController:UIViewController{
         brighton.subtitle = "This is brighton and this is the best place in the entire country .. I love coming over here !!"
         brighton.coordinate = CLLocationCoordinate2D(latitude: 50.8225, longitude: 0.1372)
         gardenMapView.addAnnotation(brighton)
+        
+        
+        let melbourne = MKPointAnnotation()
+        melbourne.title = "Melbourne"
+        melbourne.subtitle = "This is Melbourne and this is the best place in the entire country .. I love coming over here !!"
+        melbourne.coordinate = CLLocationCoordinate2D(latitude: 144.9631, longitude: 37.8136)
+        gardenMapView.addAnnotation(melbourne)
+        
     }
     
     //MARK:- INITIAL FOCUS
     func showFocusedLocation(locationManager:CLLocationManager){
         guard let location = locationManager.location?.coordinate else {return}
-        let coordinates = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+        let coordinates = CLLocationCoordinate2D(latitude:location.latitude, longitude:location.longitude)
         let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10000, longitudinalMeters: 10000)
         gardenMapView.setRegion(region, animated: true)
     }
@@ -100,8 +109,8 @@ class HomeViewController:UIViewController{
     
     //MARK:- SEGUE TO EXIBITION VIEW CONTROLLER
     func segueExhibitionViewController(annotationView:MKAnnotationView){
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let exibitionDetailsController = storyboard.instantiateViewController(withIdentifier: "ExibitionViewController") as! ExibitionDetailsViewController
+        let storyboard = UIStoryboard(name: "ExibitionDetailsStoryBoard", bundle: .main)
+        let exibitionDetailsController = storyboard.instantiateViewController(withIdentifier: "ExibitionDetailsViewController") as! ExibitionDetailsViewController
       
         guard let annotation = annotationView.annotation else {return}
         exibitionDetailsController.exibitionAnnotation = annotation
@@ -125,14 +134,37 @@ extension HomeViewController:MKMapViewDelegate{
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         segueExhibitionViewController(annotationView: view)
-        
-       
-        
     }
     
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//            
+//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "AnnotationView")
+//        
+//        if annotationView == nil {
+//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView")
+//        } else if let title = annotation.title , title == "Brighton"{
+//            annotationView?.image = UIImage(named: "Image")
+//        }
+//        
+//        return annotationView
+//      }
+//    
    
 }
 
+extension HomeViewController:CLLocationManagerDelegate{
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let coordinate = locations.last?.coordinate else {return}
+        gardenMapView.setRegion(MKCoordinateRegion(center:coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkAutorization()
+    }
+    
+}
 
 
 extension HomeViewController:FocusDelegate{
@@ -142,8 +174,4 @@ extension HomeViewController:FocusDelegate{
     
 }
 
-//MARK:- Life Cycle Methods
-extension HomeViewController{
-    
-    
-}
+

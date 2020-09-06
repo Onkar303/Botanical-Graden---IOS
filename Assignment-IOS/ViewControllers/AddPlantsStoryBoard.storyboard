@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j6g-uI-iXy">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Add Plant View Controller-->
+        <scene sceneID="ToS-YI-wtF">
+            <objects>
+                <viewController storyboardIdentifier="AddPlantViewController" id="j6g-uI-iXy" customClass="AddPlantViewController" customModule="Assignment_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PUN-Hz-gXL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="TuC-yH-xuo">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addPlantCell" id="ws2-ed-Y4I" customClass="AddPlantTableCell" customModule="Assignment_IOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ws2-ed-Y4I" id="Aah-qi-8bG">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="TuC-yH-xuo" firstAttribute="top" secondItem="4Ks-m4-h2M" secondAttribute="top" id="N4Y-LF-rXQ"/>
+                            <constraint firstItem="4Ks-m4-h2M" firstAttribute="bottom" secondItem="TuC-yH-xuo" secondAttribute="bottom" id="S3F-Y8-lej"/>
+                            <constraint firstItem="TuC-yH-xuo" firstAttribute="leading" secondItem="4Ks-m4-h2M" secondAttribute="leading" id="Ulb-cp-sEn"/>
+                            <constraint firstItem="4Ks-m4-h2M" firstAttribute="trailing" secondItem="TuC-yH-xuo" secondAttribute="trailing" id="hRJ-ed-JcO"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4Ks-m4-h2M"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KQo-wr-RtC"/>
+                    <connections>
+                        <outlet property="plantTableView" destination="TuC-yH-xuo" id="Iqc-cH-JVI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="16O-v2-LXj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3266.666666666667" y="-375"/>
+        </scene>
+    </scenes>
+</document>
