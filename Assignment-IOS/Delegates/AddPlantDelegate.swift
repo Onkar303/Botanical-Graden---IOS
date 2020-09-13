@@ -10,7 +10,7 @@ import Foundation
 
 protocol AddPlantDelegate:AnyObject{
     
-    func addPlantForSelection()
+    func addPlantForSelection(data:PlantDescription)
     
     
 }

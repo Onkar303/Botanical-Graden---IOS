@@ -14,9 +14,8 @@ extension UIImageView{
     func setRounded(){
         
         self.layer.borderWidth = 1
-        self.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        self.layer.masksToBounds = false
-        self.layer.cornerRadius = self.frame.height/2
+        self.layer.borderColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        self.layer.cornerRadius = self.frame.size.width/2
         self.clipsToBounds = true
     }
     

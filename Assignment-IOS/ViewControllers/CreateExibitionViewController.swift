@@ -13,18 +13,20 @@ class CreateExibitionViewController:UIViewController{
     
     @IBOutlet weak var exhibitionImageView: UIImageView!
     @IBOutlet weak var collectionViewController: UICollectionView!
-    var list = [String]()
+    var plantsForExibitionList = [Plants]()
     
+   
     
     let ADD_PLANT_SECTION = 0
     let PLANT_LIST_SECTION = 1
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //addTapGesture(view: exhibitionImageView)
-        //attactDelegates()
-        //configureImage()
+        addTapGesture(view: exhibitionImageView)
+        attactDelegates()
+        configureImage()
         
     }
     
@@ -48,16 +50,15 @@ class CreateExibitionViewController:UIViewController{
     }
     
     func configureImage(){
-        
         exhibitionImageView.setRounded()
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-   
+    
     func segueToAddPlantsViewController(){
-        let storyBoard = UIStoryboard(name: "Main", bundle: .main)
+        let storyBoard = UIStoryboard(name: "AddPlantsStoryBoard", bundle: .main)
         let controller = storyBoard.instantiateViewController(identifier: "AddPlantViewController") as! AddPlantViewController
         controller.addPlantDelegate = self
         navigationController?.pushViewController(controller, animated: true)
@@ -83,25 +84,25 @@ extension CreateExibitionViewController:UICollectionViewDelegate,UICollectionVie
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == PLANT_LIST_SECTION{
-            return list.count
+        if section == ADD_PLANT_SECTION{
+            return 1
         }
-        return 1
+        return 10
     }
     
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == ADD_PLANT_SECTION {
-            let newCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath)
-            newCell.contentView.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-            return newCell
-        }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath)
-            cell.contentView.backgroundColor = #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)
-            return cell
-        }
+            let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath)
         
+            return addCell
+        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "plantCell", for: indexPath) as! PlantCollectionViewCell
+        cell.layer.cornerRadius = cell.frame.width/2
+        cell.layer.borderWidth = 2
+        cell.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        return cell
     }
     
     
@@ -115,23 +116,22 @@ extension CreateExibitionViewController:UICollectionViewDelegate,UICollectionVie
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
-        if indexPath.section == ADD_PLANT_SECTION{
-            return CGSize(width: 100, height: 100)
-        }
         return CGSize(width: 100, height: 100)
     }
-
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if section == ADD_PLANT_SECTION {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
+        }
+        return UIEdgeInsets()
+    }
+    
 }
 
 extension CreateExibitionViewController:AddPlantDelegate{
-    func addPlantForSelection() {
-        
-        list.append("dfs")
-        collectionViewController.reloadData()
-        
+    
+    func addPlantForSelection(data: PlantDescription) {
+           
+           collectionViewController.reloadData()
     }
-    
-    
-    
-    
+
 }

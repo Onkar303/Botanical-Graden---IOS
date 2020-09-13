@@ -13,6 +13,14 @@ class AddPlantTableCell:UITableViewCell{
     
     static let cellIdentifier = "addPlantCell"
     
+    @IBOutlet weak var commanNameLabel: UILabel!
+    @IBOutlet weak var slugLabel: UILabel!
+    @IBOutlet weak var scientificNameLabel: UILabel!
+    @IBOutlet weak var yearOfDiscoveryLabel: UILabel!
+    @IBOutlet weak var genusLabel: UILabel!
+    @IBOutlet weak var plantFamilyLabel: UILabel!
+    @IBOutlet weak var plantImageView: UIImageView!
+    
     override func awakeFromNib() {
         
     }
