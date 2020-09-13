@@ -19,7 +19,7 @@ class LocationViewController:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addLongPressToMap()
+        //addLongPressToMap()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class AddPlantViewController:UIViewController{
     
     @IBOutlet weak var plantTableView: UITableView!
-    var addPlantDelegate : AddPlantDelegate?
+    weak var addPlantDelegate : AddPlantDelegate?
     var plantDescriptionList = [PlantDescription]()
     var uiActivityIndicator = UIActivityIndicatorView()
     
@@ -76,7 +77,7 @@ extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
         cell.plantFamilyLabel.text = plant.plantFamily
         cell.scientificNameLabel.text = plant.scientificName
         cell.yearOfDiscoveryLabel.text = "\(String(describing: plant.yearOfDescovery))"
-        fetchImage(imageView: cell.plantImageView, url: plant.imageURL)
+        Utilities.fetchImage(imageView: cell.plantImageView, url: plant.imageURL)
         
         return cell
     }
@@ -87,11 +88,20 @@ extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
     
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        addPlantDelegate?.addPlantForSelection(data:plantDescriptionList[indexPath.row])
+        addPlantDelegate?.addPlantForSelection(data: plantDescriptionList[indexPath.row])
         self.navigationController?.popViewController(animated: true)
     }
     
-    
+//    func retrivePlantForDatabase(description:PlantDescription) -> Plants{
+//        let plant = NSEntityDescription.insertNewObject(forEntityName: "Plants", into: ) as! Plants
+//        plant.planFamily = description.plantFamily
+//        plant.plantImageURL = description.imageURL
+//        plant.plantScientificName = description.scientificName
+//        plant.plantYearOfDiscovery = "\(description.yearOfDescovery)"
+//        plant.plantName = description.commonName
+//        return plant
+//    }
+
 }
 
 extension AddPlantViewController:UISearchBarDelegate{
@@ -130,23 +140,7 @@ extension AddPlantViewController{
         }.resume()
         
     }
-    
-    
-    func fetchImage(imageView:UIImageView,url:String?)
-    {
-        guard let stringUrl = url else {return}
-        let url = URL(string:stringUrl)
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if error != nil{
-                print("error fetching imgaes")
-            }
-            DispatchQueue.main.async {
-                imageView.image = UIImage(data: data!)
-            }
-        }.resume()
-    }
-    
-    
+
 }
 
 

@@ -25,6 +25,8 @@ class PlantDescription:NSObject,Decodable{
     var yearOfDescovery:Int?
     var imageURL:String?
     var genus:String?
+    var plantBibliography:String?
+    var plantAuthor:String?
     var plantFamily:String?
     
     
@@ -36,6 +38,8 @@ class PlantDescription:NSObject,Decodable{
         case yearOfDescovery = "year"
         case imageURL = "image_url"
         case genus
+        case plantBibliography="bibliography"
+        case plantAuthor = "author"
         case plantFamily = "family"
     }
     
@@ -49,6 +53,8 @@ class PlantDescription:NSObject,Decodable{
         yearOfDescovery = try? plantContainer.decode(Int.self, forKey: .yearOfDescovery)
         imageURL = try? plantContainer.decode(String.self, forKey: .imageURL)
         genus = try? plantContainer.decode(String.self, forKey: .genus)
+        plantBibliography = try? plantContainer.decode(String.self, forKey: .plantBibliography)
+        plantAuthor = try? plantContainer.decode(String.self, forKey: .plantAuthor)
         plantFamily = try? plantContainer.decode(String.self, forKey: .plantFamily)
     }
     

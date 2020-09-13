@@ -8,8 +8,7 @@
 
 import UIKit
 
-class PlantCollectionViewCell: UICollectionViewCell {
-    
+class PlantCollectionCell: UICollectionViewCell {
     @IBOutlet weak var plantImageView: UIImageView!
     
 }

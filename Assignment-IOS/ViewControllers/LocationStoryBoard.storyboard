@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Location View Controller-->
+        <scene sceneID="Nw8-1V-nQG">
+            <objects>
+                <viewController storyboardIdentifier="LocationViewController" id="bKk-PT-m4Y" customClass="LocationViewController" customModule="Assignment_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VMN-AZ-n0L">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cUG-un-osW">
+                                <rect key="frame" x="0.0" y="44" width="414" height="31"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="C0r-4S-PnR">
+                                <rect key="frame" x="0.0" y="75" width="414" height="787"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="C0r-4S-PnR" firstAttribute="top" secondItem="cUG-un-osW" secondAttribute="bottom" id="4X4-zv-8Ty"/>
+                            <constraint firstItem="cUG-un-osW" firstAttribute="top" secondItem="7To-ds-x4l" secondAttribute="top" id="CSH-5N-yAQ"/>
+                            <constraint firstItem="cUG-un-osW" firstAttribute="width" secondItem="VMN-AZ-n0L" secondAttribute="width" id="GWT-R9-BFZ"/>
+                            <constraint firstItem="C0r-4S-PnR" firstAttribute="trailing" secondItem="7To-ds-x4l" secondAttribute="trailing" id="La2-jp-3E8"/>
+                            <constraint firstItem="cUG-un-osW" firstAttribute="leading" secondItem="7To-ds-x4l" secondAttribute="leading" id="Oty-Jj-yx3"/>
+                            <constraint firstItem="7To-ds-x4l" firstAttribute="bottom" secondItem="C0r-4S-PnR" secondAttribute="bottom" id="VCN-P1-GAe"/>
+                            <constraint firstItem="cUG-un-osW" firstAttribute="height" secondItem="VMN-AZ-n0L" secondAttribute="height" multiplier="0.0345982" id="g8a-1n-Vcl"/>
+                            <constraint firstItem="C0r-4S-PnR" firstAttribute="leading" secondItem="7To-ds-x4l" secondAttribute="leading" id="t8i-y5-uN6"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="7To-ds-x4l"/>
+                    </view>
+                    <connections>
+                        <outlet property="locationMapView" destination="C0r-4S-PnR" id="7td-fd-cGO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ONb-ev-Y0U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="124.6376811594203" y="75.669642857142847"/>
+        </scene>
+    </scenes>
+</document>

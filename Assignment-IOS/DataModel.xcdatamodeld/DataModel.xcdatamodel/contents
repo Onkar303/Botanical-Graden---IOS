@@ -2,7 +2,10 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Exibition" representedClassName="Exibition" syncable="YES">
         <attribute name="exibitionDescription" optional="YES" attributeType="String"/>
+        <attribute name="exibitionImage" optional="YES" attributeType="Binary"/>
         <attribute name="exibitionName" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="plant" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Plants" inverseName="toExibition" inverseEntity="Plants"/>
     </entity>
     <entity name="Plants" representedClassName="Plants" syncable="YES">
@@ -14,7 +17,7 @@
         <relationship name="toExibition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exibition" inverseName="plant" inverseEntity="Exibition"/>
     </entity>
     <elements>
-        <element name="Exibition" positionX="-7871.76171875" positionY="3149.1484375" width="128" height="88"/>
+        <element name="Exibition" positionX="-7871.76171875" positionY="3149.1484375" width="128" height="133"/>
         <element name="Plants" positionX="-7448.73828125" positionY="3324.15625" width="128" height="133"/>
     </elements>
 </model>

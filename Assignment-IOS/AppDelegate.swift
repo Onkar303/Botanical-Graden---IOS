@@ -7,15 +7,17 @@
 //
 
 import UIKit
-import CoreData
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var databaseController:DatabaseController?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        databaseController = DatabaseController()
         return true
     }
 
@@ -33,17 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    
-    var persistenceContainer:NSPersistentContainer = {
-       
-        let persistentContainer = NSPersistentContainer(name: "")
-        persistentContainer.loadPersistentStores { (description, error) in
-            if let error = error as NSError? {
-                fatalError("")
-            }
-        }
-        return persistentContainer
-    }()
 
 
 }

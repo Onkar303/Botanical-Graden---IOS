@@ -13,12 +13,16 @@ import MapKit
 class AllExibitionViewController:UIViewController{
     
     @IBOutlet weak var allExibitionTableView: UITableView!
-    
     var focusDelegate : FocusDelegate?
+    var databaseController:DatabaseController?
+    var allExibitions = [Exibition]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
         attachDelegates()
         attachSearchController()
+        retriveData()
+        
     }
     
     //MARK: - Attaching Delegates
@@ -40,15 +44,19 @@ class AllExibitionViewController:UIViewController{
     
     
     func configureUI(){
-        
         self.navigationItem.largeTitleDisplayMode = .always
     }
     
     
+    func retriveData(){
+        allExibitions = databaseController?.fetchAllExibitions() as! [Exibition]
+    }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        <#code#>
-//    }
+    
+    
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        <#code#>
+    //    }
     
 }
 
@@ -63,14 +71,17 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return allExibitions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier:AllExibitionTableCell.cellIdentifier, for: indexPath) as! AllExibitionTableCell
+        
+        let exibition = allExibitions[indexPath.row]
+        
         cell.accessoryType = .disclosureIndicator
-        cell.plantNameLabel.text  = "Plant name"
-        cell.plantDescriptionLabel.text = "plant Description"
+        cell.plantNameLabel.text  = exibition.exibitionName
+        cell.plantDescriptionLabel.text = "\(exibition.exibitionDescription) + \(exibition.plant?.count)"
         return cell
     }
     
@@ -92,12 +103,20 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
+            databaseController?.removeExibition(exibition: allExibitions[indexPath.row])
+            self.allExibitions.remove(at: indexPath.row)
+            tableView.reloadData()
+            
+            
+            
         }
     }
     
     
-
     
     
-
+    
+    
+    
+    
 }
