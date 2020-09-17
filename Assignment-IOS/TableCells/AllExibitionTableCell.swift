@@ -13,9 +13,10 @@ class AllExibitionTableCell:UITableViewCell{
     
     static let cellIdentifier = "AllExibitionTableCell"
     
-    @IBOutlet weak var plantNameLabel: UILabel!
-    @IBOutlet weak var plantDescriptionLabel: UILabel!
-    @IBOutlet weak var planeImageView: UIImageView!
+    @IBOutlet weak var exibitionNameLabel: UILabel!
+    @IBOutlet weak var exibitionPlantCountLabel: UILabel!
+    @IBOutlet weak var exibitionCreationDate: UILabel!
+    @IBOutlet weak var exibitionImageView: UIImageView!
     
     
     override func awakeFromNib() {

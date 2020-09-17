@@ -15,22 +15,30 @@ import CoreLocation
 class HomeViewController:UIViewController{
     
     @IBOutlet weak var gardenMapView: MKMapView!
-    
     var locationManager = CLLocationManager()
-    
+    var allExibitions = [Exibition]()
+    var setFocus = false
+    @IBOutlet weak var circularButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.requestWhenInUseAuthorization()
-        checkAutorization()
         configureUI()
+        circularButton.chnageToCustomButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkAutorization()
     }
     
     //MARK:- CHECK AUTHORIZATION
     func checkAutorization(){
-    
+        
         switch CLLocationManager.authorizationStatus() {
         case .authorizedAlways:
             configureMaps()
+            showFocusedLocation(locationManager: locationManager)
+            addAnnotation()
             break
         case .authorizedWhenInUse:
             configureMaps()
@@ -53,12 +61,28 @@ class HomeViewController:UIViewController{
         gardenMapView.showsUserLocation = true
         gardenMapView.delegate = self
         locationManager.delegate = self
+        locationManager.startUpdatingLocation()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
     }
     
     //MARK:- ADDING ANNOTATIONS
     func addAnnotation(){
+        
+        let databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
+        
+        allExibitions = databaseController?.fetchAllExibitions() as! [Exibition]
+        
+        allExibitions.forEach { (exibition) in
+            let exibitionAnnotation = MKPointAnnotation()
+            exibitionAnnotation.title = exibition.exibitionName
+            exibitionAnnotation.subtitle = exibition.exibitionDescription
+            exibitionAnnotation.coordinate = CLLocationCoordinate2D(latitude:
+                exibition.latitude, longitude: exibition.longitude)
+            gardenMapView.addAnnotation(exibitionAnnotation)
+        }
+        
+        
         
         let london = MKPointAnnotation()
         london.title = "London"
@@ -93,8 +117,11 @@ class HomeViewController:UIViewController{
     
     //MARK:- CONFIGURE UI
     func configureUI(){
-        self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.largeTitleDisplayMode = .automatic
+        
     }
+    
+    
     
     //MARK:- PREPARE FOR SEGUE
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -111,20 +138,14 @@ class HomeViewController:UIViewController{
     func segueExhibitionViewController(annotationView:MKAnnotationView){
         let storyboard = UIStoryboard(name: "ExibitionDetailsStoryBoard", bundle: .main)
         let exibitionDetailsController = storyboard.instantiateViewController(withIdentifier: "ExibitionDetailsViewController") as! ExibitionDetailsViewController
-      
+        
         guard let annotation = annotationView.annotation else {return}
         exibitionDetailsController.exibitionAnnotation = annotation
         
-        guard let exibitionName = annotation.title else {return}
-        exibitionDetailsController.exibitionName = exibitionName
-        
-        guard let exibitionDescription = annotation.subtitle else {return}
-        exibitionDetailsController.exibitionDescription = exibitionDescription
+        exibitionDetailsController.exibition = nil
         
         self.navigationController?.pushViewController(exibitionDetailsController, animated: true)
     }
-    
-    
     
 }
 
@@ -135,33 +156,33 @@ extension HomeViewController:MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         segueExhibitionViewController(annotationView: view)
     }
-    
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//            
-//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "AnnotationView")
-//        
-//        if annotationView == nil {
-//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView")
-//        } else if let title = annotation.title , title == "Brighton"{
-//            annotationView?.image = UIImage(named: "Image")
-//        }
-//        
-//        return annotationView
-//      }
-//    
-   
 }
+
+
+func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView")
+    annotationView.image = UIImage(named: "Image")
+    return annotationView
+}
+
+
+
 
 extension HomeViewController:CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let coordinate = locations.last?.coordinate else {return}
-        gardenMapView.setRegion(MKCoordinateRegion(center:coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
+        
+        if !setFocus {
+            gardenMapView.setRegion(MKCoordinateRegion(center:coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
+            setFocus = true
+        }
     }
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkAutorization()
+        
     }
     
 }
@@ -169,10 +190,16 @@ extension HomeViewController:CLLocationManagerDelegate{
 
 extension HomeViewController:FocusDelegate{
     func focusOnLocation(annotation: MKPointAnnotation) {
+        gardenMapView.addAnnotation(annotation)
         gardenMapView.setRegion(MKCoordinateRegion(center:annotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
     }
-    
-    
+}
+
+extension HomeViewController{
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+    }
 }
 
 

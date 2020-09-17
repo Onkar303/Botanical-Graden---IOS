@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Exibition" representedClassName="Exibition" syncable="YES">
+        <attribute name="dateOfCreation" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="exibitionDescription" optional="YES" attributeType="String"/>
         <attribute name="exibitionImage" optional="YES" attributeType="Binary"/>
         <attribute name="exibitionName" optional="YES" attributeType="String"/>
-        <attribute name="latitude" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="plant" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Plants" inverseName="toExibition" inverseEntity="Plants"/>
     </entity>
     <entity name="Plants" representedClassName="Plants" syncable="YES">
-        <attribute name="planFamily" optional="YES" attributeType="String"/>
+        <attribute name="plantFamily" optional="YES" attributeType="String"/>
+        <attribute name="plantGenus" optional="YES" attributeType="String"/>
         <attribute name="plantImageURL" optional="YES" attributeType="String"/>
         <attribute name="plantName" optional="YES" attributeType="String"/>
         <attribute name="plantScientificName" optional="YES" attributeType="String"/>
+        <attribute name="plantSlug" optional="YES" attributeType="String"/>
         <attribute name="plantYearOfDiscovery" optional="YES" attributeType="String"/>
         <relationship name="toExibition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exibition" inverseName="plant" inverseEntity="Exibition"/>
     </entity>
     <elements>
-        <element name="Exibition" positionX="-7871.76171875" positionY="3149.1484375" width="128" height="133"/>
-        <element name="Plants" positionX="-7448.73828125" positionY="3324.15625" width="128" height="133"/>
+        <element name="Exibition" positionX="-7871.76171875" positionY="3149.1484375" width="128" height="148"/>
+        <element name="Plants" positionX="-7448.73828125" positionY="3324.15625" width="128" height="163"/>
     </elements>
 </model>

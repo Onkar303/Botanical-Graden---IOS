@@ -9,6 +9,10 @@
 import UIKit
 
 class PlantCollectionCell: UICollectionViewCell {
+    
+    static let cellIdentifier = "plantCell"
+    
     @IBOutlet weak var plantImageView: UIImageView!
+    @IBOutlet weak var plantNameLabel: UILabel!
     
 }

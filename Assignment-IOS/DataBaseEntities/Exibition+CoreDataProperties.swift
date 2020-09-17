@@ -2,7 +2,7 @@
 //  Exibition+CoreDataProperties.swift
 //  Assignment-IOS
 //
-//  Created by Techlocker on 14/9/20.
+//  Created by Techlocker on 17/9/20.
 //  Copyright © 2020 Onkar. All rights reserved.
 //
 //
@@ -18,10 +18,11 @@ extension Exibition {
     }
 
     @NSManaged public var exibitionDescription: String?
-    @NSManaged public var exibitionName: String?
-    @NSManaged public var latitude: Int16
-    @NSManaged public var longitude: Int16
     @NSManaged public var exibitionImage: Data?
+    @NSManaged public var exibitionName: String?
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
+    @NSManaged public var dateOfCreation: Date?
     @NSManaged public var plant: NSSet?
 
 }

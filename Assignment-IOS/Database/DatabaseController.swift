@@ -48,6 +48,10 @@ class DatabaseController:NSObject{
         let exibition = NSEntityDescription.insertNewObject(forEntityName: "Exibition", into: viewContext) as! Exibition
         exibition.exibitionName = data.exibitionName
         exibition.exibitionDescription = data.exibitionDescription
+        exibition.exibitionImage = data.exibitionImage
+        exibition.latitude = data.latitiude!
+        exibition.longitude = data.longitude!
+        exibition.dateOfCreation = data.exibitionCreationDate
         addPlant(exibitiondata: data, exibition: exibition)
     }
     
@@ -56,7 +60,10 @@ class DatabaseController:NSObject{
         guard let exibitionPlants = exibitiondata.exibitionPlants else {return}
         exibitionPlants.forEach({ (data) in
             let plant = NSEntityDescription.insertNewObject(forEntityName: "Plants", into: viewContext) as! Plants
-            plant.planFamily = data.plantFamily
+            plant.plantFamily = data.plantFamily
+            plant.plantName = data.commonName
+            plant.plantGenus = data.genus
+            plant.plantSlug = data.slug
             plant.plantImageURL = data.imageURL
             plant.plantScientificName = data.scientificName
             plant.plantYearOfDiscovery = "\(data.yearOfDescovery!)"
@@ -90,6 +97,19 @@ class DatabaseController:NSObject{
             exibitions = (allExibitionFetchedResultsController?.fetchedObjects)!
         }
         return exibitions
+    }
+    
+    
+    func fecthAALPlants() -> [Plants] {
+        var plants = [Plants]()
+        do {
+           plants = try viewContext.fetch(Plants.fetchRequest())
+           return plants
+        }catch {
+            print("unable to fetch plants")
+        }
+        
+        return plants
     }
     
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Network
 
 
 class Utilities{
@@ -35,5 +36,30 @@ class Utilities{
         }.resume()
     }
     
+    static func convertToPlantsFromPlantDescription(data:Plants) -> PlantDescription {
+        let plantDescription = PlantDescription()
+        plantDescription.commonName = data.plantName
+        plantDescription.genus = data.plantGenus
+        plantDescription.slug = data.plantSlug
+        plantDescription.imageURL = data.plantImageURL
+        plantDescription.plantFamily = data.plantFamily
+        plantDescription.scientificName = data.plantScientificName
+        plantDescription.yearOfDescovery = Int(data.plantYearOfDiscovery!)
+        return plantDescription
+        
+    }
+    
+    static func checkForInternetConnectivity()->Bool {
+        
+        let monitor = NWPathMonitor()
+        var isConnected = false
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                isConnected = true
+            }
+        }
+        return isConnected
+    }
     
 }

@@ -17,5 +17,9 @@ class Constants {
     public static let SEARCH_PARAM = "/search"
     public static let BASE_URL = "https://trefle.io/api/v1/plants"
     
-    static let CORNER_RAIUS = 5
+    
+    public static let COLLECTION_CELL_WIDTH = 90
+    public static let COLLECTION_CELL_HEIGHT = 110
+    public static let FOCUS_DISTANCE = 1000
+    public static let CORNER_RAIUS = 5
 }

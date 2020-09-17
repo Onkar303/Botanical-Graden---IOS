@@ -21,8 +21,7 @@ class ExibitionDetailsViewController:UIViewController{
     @IBOutlet weak var sampleCollectionView: UICollectionView!
     
     var exibitionAnnotation:MKAnnotation?
-    var exibitionName:String?
-    var exibitionDescription:String?
+    var exibition:Exibition?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,31 +32,37 @@ class ExibitionDetailsViewController:UIViewController{
         
     }
     
+    //MARK:-Setting data
     func setData(){
-        exibitionNameLabel.text = exibitionName
-        exibitionDescriptionLabel.text = exibitionDescription
+        exibitionNameLabel.text = exibition?.exibitionName
+        exibitionDescriptionLabel.text = exibition?.exibitionDescription
         exibitionMapView.addAnnotation(exibitionAnnotation!)
     }
     
+    //MARK:- adding focus
     func addFocus(){
         guard let coordinate = exibitionAnnotation?.coordinate else {return}
-        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 10000, longitudinalMeters: 10000)
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: CLLocationDistance(Constants.FOCUS_DISTANCE), longitudinalMeters: CLLocationDistance(Constants.FOCUS_DISTANCE))
         exibitionMapView.setRegion(region, animated: true)
     }
     
+    //MARK:- Configureing the ui
     func configureUI(){
         //exibitionImageView.setRounded()
         self.title = "Exibition Description"
         exibitionMapView.layer.cornerRadius = CGFloat(Constants.CORNER_RAIUS)
         exibitionMapView.isUserInteractionEnabled = false
+        exibitionImageView.setRounded()
         
     }
     
+    //MARK:- attaching the delegate
     func attachDelegate(){
         sampleCollectionView.delegate = self
         sampleCollectionView.dataSource = self
     }
     
+    //MARK:- performing Segue
     func segueToPlantDetailsViewController(){
         
         let storyBoard = UIStoryboard(name: "PlantDetailsStoryBoard", bundle: .main)
@@ -67,26 +72,28 @@ class ExibitionDetailsViewController:UIViewController{
     
 }
 
+
+//MARK:- COLLECTION VIEW DELEGATES
 extension ExibitionDetailsViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "plantcell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlantCollectionCell.cellIdentifier, for: indexPath) as! PlantCollectionCell
         
-        cell.contentView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        cell.layer.cornerRadius = CGFloat(Constants.CORNER_RAIUS)
+       
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 70, height: 70)
+        return CGSize(width: Constants.COLLECTION_CELL_WIDTH, height: Constants.COLLECTION_CELL_HEIGHT)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         segueToPlantDetailsViewController()
     }
+    
     
 }
 

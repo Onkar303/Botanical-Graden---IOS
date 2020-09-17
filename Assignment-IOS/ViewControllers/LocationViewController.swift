@@ -14,12 +14,14 @@ import CoreLocation
 class LocationViewController:UIViewController{
     
     @IBOutlet weak var locationMapView: MKMapView!
-    
+    var exibitionName:String?
+    var addExibitionDelegate:AddExibitionDelegate?
+    var userLocationSet = false
     var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //addLongPressToMap()
+        addLongPressToMap()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,6 +29,12 @@ class LocationViewController:UIViewController{
         locationManager.requestWhenInUseAuthorization()
         hasAutorization()
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let annotation = locationMapView.annotations.last else {return}
+        addExibitionDelegate?.addExibitionPin(exibitionAnnotation: annotation)
     }
     
     
@@ -58,32 +66,49 @@ class LocationViewController:UIViewController{
     
     
     func addLongPressToMap(){
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(addWayPoint(longGesture:)))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(addCoordinate(longGesture:)))
         locationMapView.addGestureRecognizer(longPress)
     }
     
-    @objc func addWayPoint(longGesture:UIGestureRecognizer){
+    @objc func addCoordinate(longGesture:UIGestureRecognizer){
         
+        locationMapView.removeAnnotations(locationMapView.annotations)
         let touchPoint = longGesture.location(in: locationMapView)
         let wayCoords = locationMapView.convert(touchPoint, toCoordinateFrom: locationMapView)
         let location = CLLocation(latitude: wayCoords.latitude, longitude: wayCoords.longitude)
 
-        let wayAnnotation = MKPointAnnotation()
-        wayAnnotation.coordinate = wayCoords
-        wayAnnotation.title = "waypoint"
-        wayAnnotation.coordinate = location.coordinate
-        locationMapView.addAnnotation(wayAnnotation)
+        let exibitionAnnotation = MKPointAnnotation()
+        exibitionAnnotation.coordinate = wayCoords
+        if title != nil {
+           exibitionAnnotation.title = title
+        }else {
+            exibitionAnnotation.title = "New Exibition"
+        }
+        
+        exibitionAnnotation.coordinate = location.coordinate
+        locationMapView.addAnnotation(exibitionAnnotation)
         
     }
 }
 extension LocationViewController:CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        guard let location = locations.last else {return}
+        if !userLocationSet {
+            let center = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            locationMapView.setRegion(center, animated: true)
+            userLocationSet = true
+        }
     }
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         hasAutorization()
+    }
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        
     }
 }
 

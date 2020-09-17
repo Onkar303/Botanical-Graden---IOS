@@ -16,6 +16,8 @@ class AllExibitionViewController:UIViewController{
     var focusDelegate : FocusDelegate?
     var databaseController:DatabaseController?
     var allExibitions = [Exibition]()
+    var filteredExibitions = [Exibition]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
@@ -80,22 +82,36 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
         let exibition = allExibitions[indexPath.row]
         
         cell.accessoryType = .disclosureIndicator
-        cell.plantNameLabel.text  = exibition.exibitionName
-        cell.plantDescriptionLabel.text = "\(exibition.exibitionDescription) + \(exibition.plant?.count)"
+        cell.exibitionImageView.setRounded()
+        if let pngData = exibition.exibitionImage {
+            cell.exibitionImageView.image = UIImage(data: pngData)
+        }
+        cell.exibitionNameLabel.text  = exibition.exibitionName
+        cell.exibitionPlantCountLabel.text = "Plants: \(exibition.plant!.count)"
+        cell.exibitionCreationDate.text = DateFormatter().string(from: exibition.dateOfCreation!)
+        cell.exibitionCreationDate.text = "14/12/2020"
         return cell
     }
     
     //MARK:- CELL CLICK
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let focusDelegate = focusDelegate else {return}
-        focusDelegate.focusOnLocation(annotation:MKPointAnnotation())
+        focusDelegate.focusOnLocation(annotation:getAnnotation(exibition: allExibitions[indexPath.row]))
         navigationController?.popViewController(animated: true)
+    }
+    
+    func getAnnotation(exibition:Exibition)-> MKPointAnnotation{
+        let pointAnnotation = MKPointAnnotation()
+        pointAnnotation.coordinate = CLLocationCoordinate2D(latitude:exibition.latitude, longitude: exibition.longitude)
+        pointAnnotation.title = exibition.exibitionName
+        pointAnnotation.subtitle = exibition.exibitionDescription
+        return pointAnnotation
     }
     
     
     //MARK:- CELL HEIGHT
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(exactly: 200)!
+        return CGFloat(exactly: 100)!
     }
     
     
@@ -106,17 +122,13 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
             databaseController?.removeExibition(exibition: allExibitions[indexPath.row])
             self.allExibitions.remove(at: indexPath.row)
             tableView.reloadData()
-            
-            
-            
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
+}
+
+
+extension AllExibitionViewController:UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
 }

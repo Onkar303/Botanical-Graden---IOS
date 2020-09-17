@@ -16,6 +16,13 @@ class AddPlantViewController:UIViewController{
     weak var addPlantDelegate : AddPlantDelegate?
     var plantDescriptionList = [PlantDescription]()
     var uiActivityIndicator = UIActivityIndicatorView()
+    var plantDatabaseList = [Plants]()
+    var databaseController:DatabaseController?
+    
+    
+    let DATABASE_SECTION = 0
+    let API_SECTION = 1
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +34,15 @@ class AddPlantViewController:UIViewController{
     func configureUI()
     {
         let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.scopeButtonTitles = ["Saved","Online"]
+        searchController.definesPresentationContext =  true
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Coconut"
         searchController.obscuresBackgroundDuringPresentation = false
         self.navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = true
-        navigationItem.largeTitleDisplayMode = .always
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+        self.navigationItem.largeTitleDisplayMode = .automatic
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         uiActivityIndicator.style = UIActivityIndicatorView.Style.medium
         uiActivityIndicator.center = self.view.center
@@ -42,6 +52,13 @@ class AddPlantViewController:UIViewController{
         self.title = "Plants"
         self.view.addSubview(uiActivityIndicator)
         
+        databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationItem.searchController?.becomeFirstResponder()
     }
     
     func attachDelegates(){
@@ -56,41 +73,72 @@ class AddPlantViewController:UIViewController{
 
 extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == DATABASE_SECTION {
+            return plantDatabaseList.count
+        }
         return plantDescriptionList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier:AddPlantTableCell.cellIdentifier, for: indexPath) as! AddPlantTableCell
+        
+        if indexPath.section == DATABASE_SECTION {
+            let dbCell = tableView.dequeueReusableCell(withIdentifier: AddPlantTableCell.cellIdentifier, for: indexPath) as! AddPlantTableCell
+            
+            let plant = plantDatabaseList[indexPath.row]
+            dbCell.plantImageView.setRounded()
+            dbCell.commanNameLabel.text = plant.plantName
+            dbCell.plantFamilyLabel.text = plant.plantFamily
+            Utilities.fetchImage(imageView: dbCell.plantImageView, url: plant.plantImageURL)
+            dbCell.accessoryType = .disclosureIndicator
+            return dbCell
+            
+        }
+        let apiCell = tableView.dequeueReusableCell(withIdentifier:AddPlantTableCell.cellIdentifier, for: indexPath) as! AddPlantTableCell
         
         let plant = plantDescriptionList[indexPath.row]
         
-        cell.plantImageView.layer.cornerRadius = (cell.plantImageView.frame.width)/2
-        cell.plantImageView.layer.borderWidth = 2
-        cell.plantImageView.layer.borderColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
-        cell.plantImageView.image = nil
-        cell.commanNameLabel.text = plant.commonName
-        cell.genusLabel.text = plant.genus
-        cell.plantFamilyLabel.text = plant.plantFamily
-        cell.scientificNameLabel.text = plant.scientificName
-        cell.yearOfDiscoveryLabel.text = "\(String(describing: plant.yearOfDescovery))"
-        Utilities.fetchImage(imageView: cell.plantImageView, url: plant.imageURL)
+        apiCell.plantImageView.setRounded()
+        apiCell.plantImageView.image = nil
+        apiCell.commanNameLabel.text = plant.commonName
+        //cell.genusLabel.text = plant.genus
+        apiCell.plantFamilyLabel.text = plant.plantFamily
+        //cell.scientificNameLabel.text = plant.scientificName
+        //cell.yearOfDiscoveryLabel.text = "\(String(describing: plant.yearOfDescovery))"
+        apiCell.accessoryType = .disclosureIndicator
+        Utilities.fetchImage(imageView: apiCell.plantImageView, url: plant.imageURL)
         
-        return cell
+        return apiCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(exactly: 350) ?? 350
+        return CGFloat(exactly: 100 ) ?? 100
     }
-    
+
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        addPlantDelegate?.addPlantForSelection(data: plantDescriptionList[indexPath.row])
+        if indexPath.section == DATABASE_SECTION {
+            addPlantDelegate?.addPlantForSelection(data: Utilities.convertToPlantsFromPlantDescription(data: plantDatabaseList[indexPath.row]))
+        } else {
+             addPlantDelegate?.addPlantForSelection(data: plantDescriptionList[indexPath.row])
+        }
+       
         self.navigationController?.popViewController(animated: true)
     }
+
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == DATABASE_SECTION {
+            return "Saved"
+        }
+        return "Search"
+    
+    }
+    
+  
     
 //    func retrivePlantForDatabase(description:PlantDescription) -> Plants{
 //        let plant = NSEntityDescription.insertNewObject(forEntityName: "Plants", into: ) as! Plants
@@ -105,18 +153,24 @@ extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
 }
 
 extension AddPlantViewController:UISearchBarDelegate{
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchQuery = searchBar.text else {return}
         fetchPlants(searchText: searchQuery)
     }
     
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        if selectedScope == 0{
+            print(0)
+        }else {
+            print(1)
+        }
+    }
 }
 
 extension AddPlantViewController{
     
     func fetchPlants(searchText:String){
-        
+        plantDescriptionList.removeAll()
         uiActivityIndicator.startAnimating()
         URLSession.shared.dataTask(with: URL(string:Constants.BASE_URL + Constants.SEARCH_PARAM + Constants.TOKEN_PARAM + Constants.TOKEN + "&q=" + searchText)!) { (data, response, error) in
             
@@ -136,9 +190,14 @@ extension AddPlantViewController{
             } catch{
                 fatalError("error in fetching data")
             }
-        
         }.resume()
-        
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let list = databaseController?.fecthAALPlants() else {return}
+        plantDatabaseList = list
     }
 
 }

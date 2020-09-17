@@ -58,7 +58,7 @@ class PlantDescription:NSObject,Decodable{
         plantFamily = try? plantContainer.decode(String.self, forKey: .plantFamily)
     }
     
-    
+    override init() {}
     
 }
 

@@ -12,8 +12,9 @@ import UIKit
 class ExibitionData:NSObject{
     var exibitionName:String?
     var exibitionDescription:String?
-    var latitiude:Int?
-    var longitude:Int?
+    var latitiude:Double?
+    var longitude:Double?
     var exibitionImage:Data?
+    var exibitionCreationDate:Date?
     var exibitionPlants:[PlantDescription]?
 }

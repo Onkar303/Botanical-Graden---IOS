@@ -17,38 +17,55 @@ class CreateExibitionViewController:UIViewController{
     @IBOutlet weak var exibitionNameTextField: UITextField!
     @IBOutlet weak var exhibitionImageView: UIImageView!
     @IBOutlet weak var collectionViewController: UICollectionView!
-    
+    @IBOutlet weak var longitudeTextLabel: UILabel!
+    @IBOutlet weak var latitudeTextLabel: UILabel!
+
+    var annotation:MKAnnotation?
     var plantsForExibitionList = [PlantDescription]()
     let ADD_PLANT_SECTION = 0
     let PLANT_LIST_SECTION = 1
     
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Exibition"
+        
         addTapGestureToImage(view: exhibitionImageView)
         addTapGestureForMap(view: exibitionMapView)
         attactDelegates()
         configureImage()
+        configureMap()
         
     }
     
+    //MARK:- ButtonEvent for adding exibition
     @IBAction func addExibition(_ sender: Any) {
-    
-       let databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
+        
+        let databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
         databaseController?.addExibition(data: getExibitionData())
         
     }
     
+    //MARK:- Fetching data from fields to make exibition
     func getExibitionData()->ExibitionData{
         
         let exibitionData = ExibitionData()
         exibitionData.exibitionName = exibitionNameTextField.text
         exibitionData.exibitionDescription = exibitiondescriptionTextField.text
+        exibitionData.exibitionCreationDate = Date()
+        
+        exibitionData.latitiude = annotation?.coordinate.latitude
+        exibitionData.longitude = annotation?.coordinate.longitude
+        
         if plantsForExibitionList.count != 0 {
             exibitionData.exibitionPlants = plantsForExibitionList
         }
-        exibitionData.exibitionImage = exhibitionImageView.image?.pngData()
+        if let pngData = exhibitionImageView.image?.pngData() {
+            exibitionData.exibitionImage = pngData
+        }        
         return exibitionData
     }
     
@@ -77,10 +94,13 @@ class CreateExibitionViewController:UIViewController{
         
     }
     
+    //MARK:- Pin the coordinates
     @objc func pinCoordinates(){
         
         let storyboard = UIStoryboard(name: "LocationStoryBoard", bundle: .main)
         let controller = storyboard.instantiateViewController(identifier: "LocationViewController") as! LocationViewController
+        controller.title = exibitionNameTextField.text
+        controller.addExibitionDelegate = self
         present(controller, animated: true, completion: nil)
     }
     
@@ -90,10 +110,15 @@ class CreateExibitionViewController:UIViewController{
         collectionViewController.dataSource = self
     }
     
-    //MARK:- Configure UI
+    //MARK:- Configure Image
     func configureImage(){
         exhibitionImageView.setRounded()
         exhibitionImageView.frame.size = CGSize(width: 70, height: 70)
+    }
+    
+    func configureMap(){
+        exibitionMapView.layer.cornerRadius = exibitionMapView.layer.frame.width/2
+        exibitionMapView.clipsToBounds = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -107,7 +132,7 @@ class CreateExibitionViewController:UIViewController{
         controller.addPlantDelegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
-    
+
 }
 
 //MARK:- UIImagePicker Delegates
@@ -141,16 +166,14 @@ extension CreateExibitionViewController:UICollectionViewDelegate,UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == ADD_PLANT_SECTION {
-            let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath)
+            let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! AddPlantCollectionCell
             return addCell
         }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "plantCell", for: indexPath) as! PlantCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlantCollectionCell.cellIdentifier, for: indexPath) as! PlantCollectionCell
         
         Utilities.fetchImage(imageView:cell.plantImageView, url: plantsForExibitionList[indexPath.row].imageURL)
-
-        cell.layer.cornerRadius = cell.frame.width/2
-        cell.layer.borderWidth = 2
-        cell.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        cell.plantImageView.setRounded()
+        cell.plantNameLabel.text = plantsForExibitionList[indexPath.row].commonName
         return cell
     }
     
@@ -165,27 +188,65 @@ extension CreateExibitionViewController:UICollectionViewDelegate,UICollectionVie
     
     //MARK:- Setting cell size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
-        if indexPath.section == ADD_PLANT_SECTION {
-            return CGSize(width: 25, height: 25)
+        if indexPath.section == ADD_PLANT_SECTION{
+            return CGSize(width: 50, height: 110)
         }
-        return CGSize(width: 75, height: 75)
+        return CGSize(width: 90, height: 110)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == ADD_PLANT_SECTION {
-            return UIEdgeInsets(top: 29.5, left: 0, bottom: 0, right: 10)
+            return UIEdgeInsets(top:0, left: 0, bottom: 0, right: 10)
         }
         return UIEdgeInsets()
     }
     
+    //MARK:- Adding context menu
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        if indexPath.section == PLANT_LIST_SECTION {
+            let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
+                     let view = UIAction(title: "View Description"){ (handler) in
+                         print("this is view")
+                     }
+                    view.image = UIImage(systemName: "eye.fill")
+                     
+                     let delete = UIAction(title: "Delete Plant") { (handler) in
+                         print("this is delete")
+                     }
+                    delete.image = UIImage(systemName: "trash.fill")
+                     
+                     return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline , children: [view,delete])
+                 }
+              return configuration
+        }
+        return nil
+    }
+    
+    
 }
+
+//MARK:- Adding Exibition
+extension CreateExibitionViewController:AddExibitionDelegate{
+    func addExibitionPin(exibitionAnnotation: MKAnnotation) {
+        annotation = exibitionAnnotation
+        exibitionMapView.removeAnnotations(exibitionMapView.annotations)
+        exibitionMapView.addAnnotation(exibitionAnnotation)
+        exibitionMapView.setRegion(MKCoordinateRegion(center: exibitionAnnotation.coordinate , latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
+        
+        latitudeTextLabel.text = "Lat: \(String(format: "%.2f", exibitionAnnotation.coordinate.latitude))"
+        longitudeTextLabel.text = "Long: \(String(format:"%.2f",exibitionAnnotation.coordinate.longitude))"
+    }
+    
+    
+}
+
 
 //MARK:- Adding plant
 extension CreateExibitionViewController:AddPlantDelegate{
-    
     func addPlantForSelection(data:PlantDescription) {
-        plantsForExibitionList.append(data)
+        plantsForExibitionList.insert(data, at: 0)
         collectionViewController.reloadData()
     }
-
+    
 }

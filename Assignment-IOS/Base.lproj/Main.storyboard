@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dkP-XL-bmf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dkP-XL-bmf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -12,8 +12,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dkP-XL-bmf" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="N0j-h6-bXS">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="N0j-h6-bXS">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="Nis-0z-rFV">
             <objects>
                 <viewController id="PHf-xm-KN2" customClass="HomeViewController" customModule="Assignment_IOS" customModuleProvider="target" sceneMemberID="viewController">
@@ -36,17 +36,27 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Wo6-8I-HzU">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Go-oE-4sB">
+                                <rect key="frame" x="328" y="679" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="PEZ-yc-BCb"/>
+                                    <constraint firstAttribute="width" constant="50" id="Qh3-uk-1he"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Wo6-8I-HzU" firstAttribute="leading" secondItem="uR4-rP-EXh" secondAttribute="leading" id="3B3-ah-lmG"/>
                             <constraint firstAttribute="bottom" secondItem="Wo6-8I-HzU" secondAttribute="bottom" id="ITO-ui-eXE"/>
+                            <constraint firstItem="uR4-rP-EXh" firstAttribute="bottom" secondItem="2Go-oE-4sB" secondAttribute="bottom" constant="133" id="R8f-kw-TuC"/>
+                            <constraint firstItem="uR4-rP-EXh" firstAttribute="trailing" secondItem="2Go-oE-4sB" secondAttribute="trailing" constant="36" id="TGS-Sh-ZXJ"/>
                             <constraint firstItem="uR4-rP-EXh" firstAttribute="trailing" secondItem="Wo6-8I-HzU" secondAttribute="trailing" id="kdx-rb-u2M"/>
                             <constraint firstItem="Wo6-8I-HzU" firstAttribute="top" secondItem="qqS-ZO-aze" secondAttribute="top" id="max-2u-smA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uR4-rP-EXh"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="6h3-8s-1eN">
+                    <navigationItem key="navigationItem" id="6h3-8s-1eN">
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="plus" catalog="system" id="ztH-v6-qOF">
                                 <connections>
@@ -61,12 +71,13 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="circularButton" destination="2Go-oE-4sB" id="SrG-pW-gdO"/>
                         <outlet property="gardenMapView" destination="Wo6-8I-HzU" id="5wK-Np-idn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d8D-Ne-ycv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1026" y="143"/>
+            <point key="canvasLocation" x="1024.6376811594205" y="142.63392857142856"/>
         </scene>
         <!--AllExibitionsStoryBoard-->
         <scene sceneID="922-CG-9Kb">
