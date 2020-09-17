@@ -38,6 +38,9 @@ class AllExibitionViewController:UIViewController{
     //MARK: - Attach Search Controller
     func attachSearchController(){
         let searchController = UISearchController(searchResultsController: nil)
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -49,9 +52,20 @@ class AllExibitionViewController:UIViewController{
         self.navigationItem.largeTitleDisplayMode = .always
     }
     
-    
+    //MARK:- Retrive data from database
     func retriveData(){
         allExibitions = databaseController?.fetchAllExibitions() as! [Exibition]
+        filteredExibitions.append(contentsOf:allExibitions)
+    }
+    
+    
+    //MARK:-Filtering data
+    func filterExibitions(searchString:String)
+    {
+        filteredExibitions = allExibitions.filter({ (exibition) -> Bool in
+            return (exibition.exibitionName?.lowercased().contains(searchString.lowercased()))!
+        })
+        allExibitionTableView.reloadData()
     }
     
     
@@ -61,6 +75,7 @@ class AllExibitionViewController:UIViewController{
     //    }
     
 }
+
 
 
 //MARK: - TableView Delegate Methods
@@ -73,13 +88,13 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allExibitions.count
+        return filteredExibitions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier:AllExibitionTableCell.cellIdentifier, for: indexPath) as! AllExibitionTableCell
         
-        let exibition = allExibitions[indexPath.row]
+        let exibition = filteredExibitions[indexPath.row]
         
         cell.accessoryType = .disclosureIndicator
         cell.exibitionImageView.setRounded()
@@ -124,11 +139,21 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
             tableView.reloadData()
         }
     }
+    
+    
 }
 
-
-extension AllExibitionViewController:UISearchResultsUpdating{
+//MARK:- SEARCH DELEGATES
+extension AllExibitionViewController:UISearchResultsUpdating,UISearchBarDelegate{
     func updateSearchResults(for searchController: UISearchController) {
-        
+        if searchController.searchBar.text != "" {
+           filterExibitions(searchString: searchController.searchBar.text!)
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filteredExibitions.removeAll()
+        filteredExibitions.append(contentsOf: allExibitions)
+        allExibitionTableView.reloadData()
     }
 }

@@ -37,6 +37,7 @@ class AddPlantViewController:UIViewController{
         searchController.searchBar.scopeButtonTitles = ["Saved","Online"]
         searchController.definesPresentationContext =  true
         searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Coconut"
         searchController.obscuresBackgroundDuringPresentation = false
         self.navigationItem.searchController = searchController
@@ -152,11 +153,16 @@ extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
 
 }
 
-extension AddPlantViewController:UISearchBarDelegate{
+extension AddPlantViewController:UISearchBarDelegate,UISearchResultsUpdating{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchQuery = searchBar.text else {return}
         fetchPlants(searchText: searchQuery)
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if selectedScope == 0{
