@@ -17,6 +17,7 @@ class AllExibitionViewController:UIViewController{
     var databaseController:DatabaseController?
     var allExibitions = [Exibition]()
     var filteredExibitions = [Exibition]()
+    var isAscending = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,9 @@ class AllExibitionViewController:UIViewController{
         
     }
     
+    @IBAction func sortList(_ sender: Any) {
+        sortExibitions()
+    }
     //MARK: - Attaching Delegates
     func attachDelegates(){
         allExibitionTableView.delegate = self
@@ -41,6 +45,7 @@ class AllExibitionViewController:UIViewController{
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
+  
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -62,10 +67,41 @@ class AllExibitionViewController:UIViewController{
     //MARK:-Filtering data
     func filterExibitions(searchString:String)
     {
+        
         filteredExibitions = allExibitions.filter({ (exibition) -> Bool in
             return (exibition.exibitionName?.lowercased().contains(searchString.lowercased()))!
         })
         allExibitionTableView.reloadData()
+    }
+    
+    //MARK:- SORT in Ascending and Descending order
+    func sortExibitions(){
+        
+        if !isAscending {
+            filteredExibitions.sort { (exibitionOne, exibitionTwo) -> Bool in
+                     guard let exibitionNameOne = exibitionOne.exibitionName else {return false}
+                     guard let exibitionNameTwo = exibitionTwo.exibitionName else {return false}
+                     return exibitionNameOne > exibitionNameTwo
+                 }
+            isAscending = true
+        }else{
+            filteredExibitions.sort { (exibitionOne, exibitionTwo) -> Bool in
+                                guard let exibitionNameOne = exibitionOne.exibitionName else {return false}
+                                guard let exibitionNameTwo = exibitionTwo.exibitionName else {return false}
+                                return exibitionNameOne < exibitionNameTwo
+                            }
+            isAscending = false
+        }
+     
+        
+        allExibitionTableView.reloadData()
+    }
+    
+    func formatDate(date:Date?) -> String{
+        guard let date = date else {return "0/0/0000"}
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        return dateFormatter.string(from: date)
     }
     
     
@@ -103,8 +139,7 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
         }
         cell.exibitionNameLabel.text  = exibition.exibitionName
         cell.exibitionPlantCountLabel.text = "Plants: \(exibition.plant!.count)"
-        cell.exibitionCreationDate.text = DateFormatter().string(from: exibition.dateOfCreation!)
-        cell.exibitionCreationDate.text = "14/12/2020"
+        cell.exibitionCreationDate.text = formatDate(date: exibition.dateOfCreation)
         return cell
     }
     

@@ -15,4 +15,9 @@ class PlantCollectionCell: UICollectionViewCell {
     @IBOutlet weak var plantImageView: UIImageView!
     @IBOutlet weak var plantNameLabel: UILabel!
     
+    
+    override func prepareForReuse() {
+        plantImageView.image = nil
+    }
+    
 }

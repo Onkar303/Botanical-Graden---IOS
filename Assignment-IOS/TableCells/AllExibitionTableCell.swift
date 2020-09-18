@@ -23,4 +23,7 @@ class AllExibitionTableCell:UITableViewCell{
         
     }
     
+    override func prepareForReuse() {
+        exibitionImageView.image = nil
+    }
 }

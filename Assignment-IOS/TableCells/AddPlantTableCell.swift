@@ -24,4 +24,8 @@ class AddPlantTableCell:UITableViewCell{
     override func awakeFromNib() {
         
     }
+    
+    override func prepareForReuse() {
+        plantImageView.image = nil
+    }
 }

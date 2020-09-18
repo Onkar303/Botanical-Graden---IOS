@@ -36,21 +36,11 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Wo6-8I-HzU">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Go-oE-4sB">
-                                <rect key="frame" x="328" y="679" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="PEZ-yc-BCb"/>
-                                    <constraint firstAttribute="width" constant="50" id="Qh3-uk-1he"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Wo6-8I-HzU" firstAttribute="leading" secondItem="uR4-rP-EXh" secondAttribute="leading" id="3B3-ah-lmG"/>
                             <constraint firstAttribute="bottom" secondItem="Wo6-8I-HzU" secondAttribute="bottom" id="ITO-ui-eXE"/>
-                            <constraint firstItem="uR4-rP-EXh" firstAttribute="bottom" secondItem="2Go-oE-4sB" secondAttribute="bottom" constant="133" id="R8f-kw-TuC"/>
-                            <constraint firstItem="uR4-rP-EXh" firstAttribute="trailing" secondItem="2Go-oE-4sB" secondAttribute="trailing" constant="36" id="TGS-Sh-ZXJ"/>
                             <constraint firstItem="uR4-rP-EXh" firstAttribute="trailing" secondItem="Wo6-8I-HzU" secondAttribute="trailing" id="kdx-rb-u2M"/>
                             <constraint firstItem="Wo6-8I-HzU" firstAttribute="top" secondItem="qqS-ZO-aze" secondAttribute="top" id="max-2u-smA"/>
                         </constraints>
@@ -71,7 +61,6 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="circularButton" destination="2Go-oE-4sB" id="SrG-pW-gdO"/>
                         <outlet property="gardenMapView" destination="Wo6-8I-HzU" id="5wK-Np-idn"/>
                     </connections>
                 </viewController>

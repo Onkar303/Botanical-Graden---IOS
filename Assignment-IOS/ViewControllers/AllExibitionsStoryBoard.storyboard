@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--All Exibition-->
+        <!--Exhibitions-->
         <scene sceneID="9kd-vg-80Y">
             <objects>
                 <viewController id="rZW-xZ-1my" customClass="AllExibitionViewController" customModule="Assignment_IOS" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,11 +19,11 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AllExibitionTableCell" rowHeight="185" id="iGO-Vi-YTh" customClass="AllExibitionTableCell" customModule="Assignment_IOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="185"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AllExibitionTableCell" rowHeight="113" id="iGO-Vi-YTh" customClass="AllExibitionTableCell" customModule="Assignment_IOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="113"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iGO-Vi-YTh" id="wvc-Zt-Sjs">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="185"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="113"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pencil.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mMx-b8-eVo">
@@ -87,8 +87,12 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HzS-ge-N3n"/>
                     </view>
-                    <navigationItem key="navigationItem" title="All Exibition" id="s3e-KF-SKV">
-                        <barButtonItem key="rightBarButtonItem" title="Sort" id="ZEH-3d-SVv"/>
+                    <navigationItem key="navigationItem" title="Exhibitions" id="s3e-KF-SKV">
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="ZEH-3d-SVv">
+                            <connections>
+                                <action selector="sortList:" destination="rZW-xZ-1my" id="h4J-mJ-AdT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="allExibitionTableView" destination="QX0-wd-4wc" id="OsL-ef-00Y"/>
@@ -96,7 +100,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZo-Y0-IqF" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2031.8840579710147" y="582.58928571428567"/>
+            <point key="canvasLocation" x="1706" y="556"/>
         </scene>
     </scenes>
     <resources>

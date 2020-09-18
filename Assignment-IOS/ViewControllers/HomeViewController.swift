@@ -18,12 +18,10 @@ class HomeViewController:UIViewController{
     var locationManager = CLLocationManager()
     var allExibitions = [Exibition]()
     var setFocus = false
-    @IBOutlet weak var circularButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.requestWhenInUseAuthorization()
         configureUI()
-        circularButton.chnageToCustomButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,10 +139,22 @@ class HomeViewController:UIViewController{
         
         guard let annotation = annotationView.annotation else {return}
         exibitionDetailsController.exibitionAnnotation = annotation
-        
-        exibitionDetailsController.exibition = nil
-        
+
+        exibitionDetailsController.exibition = retriveExibition(coordinate: annotation.coordinate)
+    
         self.navigationController?.pushViewController(exibitionDetailsController, animated: true)
+    }
+    
+    
+    func retriveExibition(coordinate:CLLocationCoordinate2D) -> Exibition? {
+        var searchedExibition:Exibition?
+        allExibitions.forEach { (exibition) in
+            if exibition.latitude == coordinate.latitude && exibition.longitude == coordinate.longitude {
+                searchedExibition = exibition
+            }
+        }
+        
+        return searchedExibition
     }
     
 }

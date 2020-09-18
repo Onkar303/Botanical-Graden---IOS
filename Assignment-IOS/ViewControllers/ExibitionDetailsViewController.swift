@@ -17,10 +17,10 @@ class ExibitionDetailsViewController:UIViewController{
     @IBOutlet weak var exibitionDescriptionLabel: UILabel!
     @IBOutlet weak var exibitionMapView: MKMapView!
     @IBOutlet weak var exibitionImageView: UIImageView!
-    
     @IBOutlet weak var sampleCollectionView: UICollectionView!
     
     var exibitionAnnotation:MKAnnotation?
+    var exibitionPlantList = [Plants]()
     var exibition:Exibition?
     
     override func viewDidLoad() {
@@ -37,6 +37,9 @@ class ExibitionDetailsViewController:UIViewController{
         exibitionNameLabel.text = exibition?.exibitionName
         exibitionDescriptionLabel.text = exibition?.exibitionDescription
         exibitionMapView.addAnnotation(exibitionAnnotation!)
+        exibitionImageView.image = UIImage(data: (exibition?.exibitionImage)!)
+        exibitionPlantList.append(contentsOf:exibition?.plant?.allObjects as! [Plants])
+        
     }
     
     //MARK:- adding focus
@@ -63,11 +66,12 @@ class ExibitionDetailsViewController:UIViewController{
     }
     
     //MARK:- performing Segue
-    func segueToPlantDetailsViewController(){
-        
+    func segueToPlantDetailsViewController(plant:Plants){
+
         let storyBoard = UIStoryboard(name: "PlantDetailsStoryBoard", bundle: .main)
-        let controller = storyBoard.instantiateViewController(identifier: "PlantDetailsViewController") as! PlantDetailsViewController
-        navigationController?.pushViewController(controller, animated: true)
+        let plantController = storyBoard.instantiateViewController(identifier: "PlantDetailsViewController") as! PlantDetailsViewController
+        plantController.plant = plant
+        navigationController?.pushViewController(plantController, animated: true)
     }
     
 }
@@ -77,12 +81,13 @@ class ExibitionDetailsViewController:UIViewController{
 extension ExibitionDetailsViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return exibitionPlantList.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlantCollectionCell.cellIdentifier, for: indexPath) as! PlantCollectionCell
-        
-       
+        cell.plantNameLabel.text = exibitionPlantList[indexPath.row].plantName
+        cell.plantImageView.setRounded()
+        Utilities.fetchImage(imageView: cell.plantImageView, url: exibitionPlantList[indexPath.row].plantImageURL)
         return cell
     }
 
@@ -91,9 +96,7 @@ extension ExibitionDetailsViewController:UICollectionViewDelegate,UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        segueToPlantDetailsViewController()
+        segueToPlantDetailsViewController(plant: exibitionPlantList[indexPath.row])
     }
-    
-    
 }
 

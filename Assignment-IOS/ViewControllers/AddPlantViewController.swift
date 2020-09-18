@@ -17,7 +17,9 @@ class AddPlantViewController:UIViewController{
     var plantDescriptionList = [PlantDescription]()
     var uiActivityIndicator = UIActivityIndicatorView()
     var plantDatabaseList = [Plants]()
+    var filteredPlantDatabaseList = [Plants]()
     var databaseController:DatabaseController?
+    var arePlantsFromDatabase:Bool = true
     
     
     let DATABASE_SECTION = 0
@@ -35,6 +37,7 @@ class AddPlantViewController:UIViewController{
     {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.scopeButtonTitles = ["Saved","Online"]
+        searchController.searchBar.showsScopeBar = true
         searchController.definesPresentationContext =  true
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
@@ -63,9 +66,15 @@ class AddPlantViewController:UIViewController{
     }
     
     func attachDelegates(){
-        
         plantTableView.delegate = self
         plantTableView.dataSource = self
+    }
+    
+    func filterListFromDatabase(searchText:String){
+        filteredPlantDatabaseList = plantDatabaseList.filter({ (plants) -> Bool in
+            return (plants.plantName?.lowercased().contains(searchText.lowercased()))!
+        })
+        plantTableView.reloadData()
     }
     
     
@@ -74,19 +83,20 @@ class AddPlantViewController:UIViewController{
 
 extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == DATABASE_SECTION {
-            return plantDatabaseList.count
+        if arePlantsFromDatabase {
+            return filteredPlantDatabaseList.count
         }
         return plantDescriptionList.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == DATABASE_SECTION {
+        if arePlantsFromDatabase {
             let dbCell = tableView.dequeueReusableCell(withIdentifier: AddPlantTableCell.cellIdentifier, for: indexPath) as! AddPlantTableCell
             
             let plant = plantDatabaseList[indexPath.row]
@@ -99,7 +109,6 @@ extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
             
         }
         let apiCell = tableView.dequeueReusableCell(withIdentifier:AddPlantTableCell.cellIdentifier, for: indexPath) as! AddPlantTableCell
-        
         let plant = plantDescriptionList[indexPath.row]
         
         apiCell.plantImageView.setRounded()
@@ -111,66 +120,67 @@ extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
         //cell.yearOfDiscoveryLabel.text = "\(String(describing: plant.yearOfDescovery))"
         apiCell.accessoryType = .disclosureIndicator
         Utilities.fetchImage(imageView: apiCell.plantImageView, url: plant.imageURL)
-        
         return apiCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(exactly: 100 ) ?? 100
     }
-
-
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == DATABASE_SECTION {
+        if arePlantsFromDatabase {
             addPlantDelegate?.addPlantForSelection(data: Utilities.convertToPlantsFromPlantDescription(data: plantDatabaseList[indexPath.row]))
         } else {
-             addPlantDelegate?.addPlantForSelection(data: plantDescriptionList[indexPath.row])
+            addPlantDelegate?.addPlantForSelection(data: plantDescriptionList[indexPath.row])
         }
-       
         self.navigationController?.popViewController(animated: true)
     }
-
+    
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == DATABASE_SECTION {
+        if arePlantsFromDatabase {
             return "Saved"
         }
         return "Search"
-    
+        
     }
-    
-  
-    
-//    func retrivePlantForDatabase(description:PlantDescription) -> Plants{
-//        let plant = NSEntityDescription.insertNewObject(forEntityName: "Plants", into: ) as! Plants
-//        plant.planFamily = description.plantFamily
-//        plant.plantImageURL = description.imageURL
-//        plant.plantScientificName = description.scientificName
-//        plant.plantYearOfDiscovery = "\(description.yearOfDescovery)"
-//        plant.plantName = description.commonName
-//        return plant
-//    }
-
 }
 
 extension AddPlantViewController:UISearchBarDelegate,UISearchResultsUpdating{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if arePlantsFromDatabase {
+            return
+        }
         guard let searchQuery = searchBar.text else {return}
         fetchPlants(searchText: searchQuery)
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         
+        if arePlantsFromDatabase && searchController.searchBar.text == "" {
+            filteredPlantDatabaseList.removeAll()
+            filteredPlantDatabaseList.append(contentsOf:plantDatabaseList)
+            plantTableView.reloadData()
+        }
+
+        if arePlantsFromDatabase && searchController.searchBar.text != "" {
+            filterListFromDatabase(searchText: searchController.searchBar.text!)
+            return
+        }
     }
     
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if selectedScope == 0{
-            print(0)
+            arePlantsFromDatabase = true
+            plantTableView.reloadData()
         }else {
-            print(1)
+            arePlantsFromDatabase = false
+            plantTableView.reloadData()
         }
     }
+    
 }
 
 extension AddPlantViewController{
@@ -204,8 +214,9 @@ extension AddPlantViewController{
         super.viewWillAppear(animated)
         guard let list = databaseController?.fecthAALPlants() else {return}
         plantDatabaseList = list
+        filteredPlantDatabaseList.append(contentsOf: plantDatabaseList)
     }
-
+    
 }
 
 

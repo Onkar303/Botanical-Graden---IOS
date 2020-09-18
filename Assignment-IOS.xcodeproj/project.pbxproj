@@ -204,9 +204,9 @@
 		42EE587E24F16FC3009053A9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				4274DE622511DA98000CE54A /* AddExibitionDelegate.swift */,
 				4242431E25039C9700B3C1C0 /* FocusDelegate.swift */,
 				426A1E902504DFE90047E903 /* AddPlantDelegate.swift */,
-				4274DE622511DA98000CE54A /* AddExibitionDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
