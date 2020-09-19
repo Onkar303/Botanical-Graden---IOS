@@ -28,6 +28,7 @@ class LocationViewController:UIViewController{
         super.viewWillAppear(animated)
         locationManager.requestWhenInUseAuthorization()
         hasAutorization()
+        setFocus()
         
     }
     
@@ -62,6 +63,14 @@ class LocationViewController:UIViewController{
         locationMapView.showsUserLocation = true
         locationManager.delegate = self
         locationMapView.delegate = self
+    }
+    
+    func setFocus(){
+        
+        let coordinates = CLLocationCoordinate2D(latitude: Constants.BOTANICAL_GARDEN_LATITUDE, longitude: Constants.BOTANICAL_GARDEN_LONGITUDE)
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        locationMapView.setRegion(region, animated: true)
+        
     }
     
     

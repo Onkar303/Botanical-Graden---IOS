@@ -69,7 +69,7 @@ class AllExibitionViewController:UIViewController{
     {
         
         filteredExibitions = allExibitions.filter({ (exibition) -> Bool in
-            return (exibition.exibitionName?.lowercased().contains(searchString.lowercased()))!
+            return (exibition.exibitionName?.contains(searchString))!
         })
         allExibitionTableView.reloadData()
     }
@@ -103,6 +103,8 @@ class AllExibitionViewController:UIViewController{
         dateFormatter.dateFormat = "dd/MM/yyyy"
         return dateFormatter.string(from: date)
     }
+    
+    
     
     
     
@@ -168,14 +170,17 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
     //MARK:- DELETE CELL
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
             databaseController?.removeExibition(exibition: allExibitions[indexPath.row])
+            databaseController?.saveContext()
             self.allExibitions.remove(at: indexPath.row)
-            tableView.reloadData()
+            self.filteredExibitions.remove(at: indexPath.row)
+            allExibitionTableView.performBatchUpdates({
+                allExibitionTableView.deleteRows(at: [indexPath], with: .automatic)
+            }, completion: nil)
+           
+            //allExibitionTableView.reloadData()
         }
     }
-    
-    
 }
 
 //MARK:- SEARCH DELEGATES
@@ -192,3 +197,5 @@ extension AllExibitionViewController:UISearchResultsUpdating,UISearchBarDelegate
         allExibitionTableView.reloadData()
     }
 }
+
+

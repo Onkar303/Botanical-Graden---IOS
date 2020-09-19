@@ -20,13 +20,16 @@ class HomeViewController:UIViewController{
     var setFocus = false
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.requestWhenInUseAuthorization()
         configureUI()
+      
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        locationManager.requestWhenInUseAuthorization()
         checkAutorization()
+        print("viewWillAppers")
     }
     
     //MARK:- CHECK AUTHORIZATION
@@ -66,7 +69,7 @@ class HomeViewController:UIViewController{
     
     //MARK:- ADDING ANNOTATIONS
     func addAnnotation(){
-        
+        gardenMapView.removeAnnotations(gardenMapView.annotations)
         let databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
         
         allExibitions = databaseController?.fetchAllExibitions() as! [Exibition]
@@ -80,35 +83,14 @@ class HomeViewController:UIViewController{
             gardenMapView.addAnnotation(exibitionAnnotation)
         }
         
-        
-        
-        let london = MKPointAnnotation()
-        london.title = "London"
-        london.subtitle = "This is sparta !1"
-        london.coordinate = CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275)
-        gardenMapView.addAnnotation(london)
-        
-        
-        let brighton = MKPointAnnotation()
-        brighton.title = "Brighton"
-        brighton.subtitle = "This is brighton and this is the best place in the entire country .. I love coming over here !!"
-        brighton.coordinate = CLLocationCoordinate2D(latitude: 50.8225, longitude: 0.1372)
-        gardenMapView.addAnnotation(brighton)
-        
-        
-        let melbourne = MKPointAnnotation()
-        melbourne.title = "Melbourne"
-        melbourne.subtitle = "If you're visiting this page, you're likely here because you're searching for a random sentence. Sometimes a random word just isn't enough, and that is where the random sentence generator comes into play. By inputting the desired number, you can make a list of as many random sentences as you want or need. Producing random sentences can be helpful in a number of different ways."
-        melbourne.coordinate = CLLocationCoordinate2D(latitude:37.8136, longitude: 144.9631)
-        gardenMapView.addAnnotation(melbourne)
-        
+        gardenMapView.showAnnotations(gardenMapView.annotations, animated: true)
     }
     
     //MARK:- INITIAL FOCUS
     func showFocusedLocation(locationManager:CLLocationManager){
-        guard let location = locationManager.location?.coordinate else {return}
-        let coordinates = CLLocationCoordinate2D(latitude:location.latitude, longitude:location.longitude)
-        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10000, longitudinalMeters: 10000)
+        //guard let location = locationManager.location?.coordinate else {return}
+        let coordinates = CLLocationCoordinate2D(latitude: Constants.BOTANICAL_GARDEN_LATITUDE, longitude:Constants.BOTANICAL_GARDEN_LONGITUDE)
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
         gardenMapView.setRegion(region, animated: true)
     }
     
@@ -153,7 +135,6 @@ class HomeViewController:UIViewController{
                 searchedExibition = exibition
             }
         }
-        
         return searchedExibition
     }
     
@@ -170,9 +151,26 @@ extension HomeViewController:MKMapViewDelegate{
 
 
 func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-    let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView")
-    annotationView.image = UIImage(named: "Image")
-    return annotationView
+    guard !annotation.isKind(of: MKUserLocation.self) else {
+            return nil
+        }
+
+        let annotationIdentifier = "AnnotationIdentifier"
+
+    var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            annotationView!.canShowCallout = true
+        }
+        else {
+            annotationView!.annotation = annotation
+        }
+
+        annotationView!.image = UIImage(named: "Image")
+
+        return annotationView
 }
 
 
@@ -201,15 +199,16 @@ extension HomeViewController:CLLocationManagerDelegate{
 extension HomeViewController:FocusDelegate{
     func focusOnLocation(annotation: MKPointAnnotation) {
         gardenMapView.addAnnotation(annotation)
-        gardenMapView.setRegion(MKCoordinateRegion(center:annotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
+        gardenMapView.setRegion(MKCoordinateRegion(center:annotation.coordinate, latitudinalMeters: 3000, longitudinalMeters: 3000), animated: true)
     }
 }
 
 extension HomeViewController{
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    
+    func addDeaultAnnotations(){
         
     }
+    
 }
 
 

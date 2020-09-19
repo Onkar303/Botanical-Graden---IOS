@@ -29,6 +29,7 @@
 		426A1E99250538940047E903 /* PlantDetailsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E98250538940047E903 /* PlantDetailsStoryBoard.storyboard */; };
 		426A1E9B250538F10047E903 /* AddPlantsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E9A250538F10047E903 /* AddPlantsStoryBoard.storyboard */; };
 		426A1E9D2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 426A1E9C2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard */; };
+		42716354251668A20011DA36 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42716353251668A20011DA36 /* CardView.swift */; };
 		4274DE632511DA98000CE54A /* AddExibitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274DE622511DA98000CE54A /* AddExibitionDelegate.swift */; };
 		4274DE65251241AA000CE54A /* AddPlantCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274DE64251241AA000CE54A /* AddPlantCollectionCell.swift */; };
 		42DEB51F25130ED200ED738F /* Plants+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DEB51B25130ED200ED738F /* Plants+CoreDataClass.swift */; };
@@ -70,6 +71,7 @@
 		426A1E98250538940047E903 /* PlantDetailsStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PlantDetailsStoryBoard.storyboard; sourceTree = "<group>"; };
 		426A1E9A250538F10047E903 /* AddPlantsStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddPlantsStoryBoard.storyboard; sourceTree = "<group>"; };
 		426A1E9C2505394D0047E903 /* ExibitionDetailsStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ExibitionDetailsStoryBoard.storyboard; sourceTree = "<group>"; };
+		42716353251668A20011DA36 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		4274DE622511DA98000CE54A /* AddExibitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExibitionDelegate.swift; sourceTree = "<group>"; };
 		4274DE64251241AA000CE54A /* AddPlantCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantCollectionCell.swift; sourceTree = "<group>"; };
 		42DEB51B25130ED200ED738F /* Plants+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Plants+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				4208010D24FFA64C00C20804 /* Constants.swift */,
 				42EE588324F17200009053A9 /* Utilities.swift */,
 				426A1E92250511CE0047E903 /* CustomConfigurations.swift */,
+				42716353251668A20011DA36 /* CardView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				42DEB52025130ED200ED738F /* Plants+CoreDataProperties.swift in Sources */,
 				42DEB51F25130ED200ED738F /* Plants+CoreDataClass.swift in Sources */,
 				42EE588624F17AA5009053A9 /* ExibitionDetailsViewController.swift in Sources */,
+				42716354251668A20011DA36 /* CardView.swift in Sources */,
 				42EE588A24F20B95009053A9 /* CreateExibitionViewController.swift in Sources */,
 				42EE588E24F21057009053A9 /* HomeViewController.swift in Sources */,
 				42DEB52225130ED200ED738F /* Exibition+CoreDataProperties.swift in Sources */,

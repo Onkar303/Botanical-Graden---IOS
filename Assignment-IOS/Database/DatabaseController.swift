@@ -102,8 +102,10 @@ class DatabaseController:NSObject{
     
     func fecthAALPlants() -> [Plants] {
         var plants = [Plants]()
+        let request:NSFetchRequest<Plants> = Plants.fetchRequest()
+        request.returnsDistinctResults = true
         do {
-           plants = try viewContext.fetch(Plants.fetchRequest())
+            plants = try viewContext.fetch(request)
            return plants
         }catch {
             print("unable to fetch plants")

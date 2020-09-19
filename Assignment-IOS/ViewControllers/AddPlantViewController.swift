@@ -72,7 +72,7 @@ class AddPlantViewController:UIViewController{
     
     func filterListFromDatabase(searchText:String){
         filteredPlantDatabaseList = plantDatabaseList.filter({ (plants) -> Bool in
-            return (plants.plantName?.lowercased().contains(searchText.lowercased()))!
+            return (plants.plantName?.contains(searchText))!
         })
         plantTableView.reloadData()
     }
@@ -130,7 +130,7 @@ extension AddPlantViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if arePlantsFromDatabase {
-            addPlantDelegate?.addPlantForSelection(data: Utilities.convertToPlantsFromPlantDescription(data: plantDatabaseList[indexPath.row]))
+            addPlantDelegate?.addPlantForSelection(data: Utilities.convertFromPlantsToPlantDescription(data: plantDatabaseList[indexPath.row]))
         } else {
             addPlantDelegate?.addPlantForSelection(data: plantDescriptionList[indexPath.row])
         }

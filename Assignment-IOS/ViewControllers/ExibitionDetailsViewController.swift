@@ -23,6 +23,7 @@ class ExibitionDetailsViewController:UIViewController{
     var exibitionPlantList = [Plants]()
     var exibition:Exibition?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setData()
@@ -34,7 +35,8 @@ class ExibitionDetailsViewController:UIViewController{
     
     //MARK:-Setting data
     func setData(){
-        exibitionNameLabel.text = exibition?.exibitionName
+        self.title = exibition?.exibitionName
+        //exibitionNameLabel.text = exibition?.exibitionName
         exibitionDescriptionLabel.text = exibition?.exibitionDescription
         exibitionMapView.addAnnotation(exibitionAnnotation!)
         exibitionImageView.image = UIImage(data: (exibition?.exibitionImage)!)
@@ -52,10 +54,12 @@ class ExibitionDetailsViewController:UIViewController{
     //MARK:- Configureing the ui
     func configureUI(){
         //exibitionImageView.setRounded()
-        self.title = "Exibition Description"
         exibitionMapView.layer.cornerRadius = CGFloat(Constants.CORNER_RAIUS)
         exibitionMapView.isUserInteractionEnabled = false
-        exibitionImageView.setRounded()
+        sampleCollectionView.layer.cornerRadius = CGFloat(Constants.CORNER_RAIUS)
+        sampleCollectionView.layer.backgroundColor = UIColor(named:"CustomColor")?.cgColor
+        
+        //exibitionImageView.setRounded()
         
     }
     
@@ -67,13 +71,11 @@ class ExibitionDetailsViewController:UIViewController{
     
     //MARK:- performing Segue
     func segueToPlantDetailsViewController(plant:Plants){
-
         let storyBoard = UIStoryboard(name: "PlantDetailsStoryBoard", bundle: .main)
         let plantController = storyBoard.instantiateViewController(identifier: "PlantDetailsViewController") as! PlantDetailsViewController
         plantController.plant = plant
         navigationController?.pushViewController(plantController, animated: true)
     }
-    
 }
 
 

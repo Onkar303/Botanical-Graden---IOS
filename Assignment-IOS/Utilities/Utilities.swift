@@ -36,7 +36,7 @@ class Utilities{
         }.resume()
     }
     
-    static func convertToPlantsFromPlantDescription(data:Plants) -> PlantDescription {
+    static func convertFromPlantsToPlantDescription(data:Plants) -> PlantDescription {
         let plantDescription = PlantDescription()
         plantDescription.commonName = data.plantName
         plantDescription.genus = data.plantGenus

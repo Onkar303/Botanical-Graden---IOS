@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class AddPlantCollectionCell:UICollectionViewCell{
+    static let cellIdentifier = "addCell"
     
     @IBOutlet weak var addImageView: UIImageView!
 }

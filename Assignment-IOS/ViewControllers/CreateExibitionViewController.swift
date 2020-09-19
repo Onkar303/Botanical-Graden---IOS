@@ -16,10 +16,10 @@ class CreateExibitionViewController:UIViewController{
     @IBOutlet weak var exibitiondescriptionTextField: UITextField!
     @IBOutlet weak var exibitionNameTextField: UITextField!
     @IBOutlet weak var exhibitionImageView: UIImageView!
-    @IBOutlet weak var collectionViewController: UICollectionView!
+    @IBOutlet weak var plantCollectionView: UICollectionView!
     @IBOutlet weak var longitudeTextLabel: UILabel!
     @IBOutlet weak var latitudeTextLabel: UILabel!
-
+    
     var annotation:MKAnnotation?
     var plantsForExibitionList = [PlantDescription]()
     let ADD_PLANT_SECTION = 0
@@ -37,15 +37,47 @@ class CreateExibitionViewController:UIViewController{
         addTapGestureForMap(view: exibitionMapView)
         attactDelegates()
         configureImage()
-        configureMap()
+        //configureMap()
         
     }
     
-    //MARK:- ButtonEvent for adding exibition
+    //MARK:- ButtonEvent for adding exibition with validations
     @IBAction func addExibition(_ sender: Any) {
         
         let databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
+       
+        
+        
+        if exibitionNameTextField.text == "" {
+            present(Utilities.customAlertController(title: "Alert!", message: "Exibition Name cannot be empty"), animated: true, completion: nil)
+            return
+        }
+        
+        if exibitiondescriptionTextField.text == "" {
+            present(  Utilities.customAlertController(title: "Alert!", message: "Exibition description cannot be empty"), animated: true, completion: nil)
+            return
+            
+        }
+        
+        if exibitionMapView.annotations.count == 0 {
+            present(Utilities.customAlertController(title: "Alert!", message: "Please set a location for the exhibition"), animated: true, completion: nil)
+            return
+        }
+        
+        if plantsForExibitionList.count < 3 {
+            present( Utilities.customAlertController(title: "Alert!", message: "A minimum of 3 plants are required to create an exibition"), animated: true, completion: nil)
+            return
+        }
+        
         databaseController?.addExibition(data: getExibitionData())
+        databaseController?.saveContext()
+        
+        //present(Utilities.customAlertController(title: "Alert!", message: "Saved Successfully"), animated: true, completion: nil)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
         
     }
     
@@ -106,8 +138,11 @@ class CreateExibitionViewController:UIViewController{
     
     //MARK:- Attach Delegates
     func attactDelegates(){
-        collectionViewController.delegate = self
-        collectionViewController.dataSource = self
+        plantCollectionView.delegate = self
+        plantCollectionView.dataSource = self
+        exibitionNameTextField.delegate = self
+        exibitiondescriptionTextField.delegate = self
+
     }
     
     //MARK:- Configure Image
@@ -116,10 +151,11 @@ class CreateExibitionViewController:UIViewController{
         exhibitionImageView.frame.size = CGSize(width: 70, height: 70)
     }
     
-    func configureMap(){
-        exibitionMapView.layer.cornerRadius = exibitionMapView.layer.frame.width/2
-        exibitionMapView.clipsToBounds = true
-    }
+//    //MARK:- configure maps
+//    func configureMap(){
+//        exibitionMapView.layer.cornerRadius = exibitionMapView.layer.frame.width/2
+//        exibitionMapView.clipsToBounds = true
+//    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -132,7 +168,15 @@ class CreateExibitionViewController:UIViewController{
         controller.addPlantDelegate = self
         navigationController?.pushViewController(controller, animated: true)
     }
-
+    
+    func segueToPlantdetailsViewcontroller(plantDescription:PlantDescription){
+        let storyBoard = UIStoryboard(name: "PlantDetailsStoryBoard", bundle: .main)
+        let plantController = storyBoard.instantiateViewController(identifier: "PlantDetailsViewController") as! PlantDetailsViewController
+        plantController.plantDescription = plantDescription
+        self.navigationController?.pushViewController(plantController, animated: true)
+        
+    }
+    
 }
 
 //MARK:- UIImagePicker Delegates
@@ -166,7 +210,7 @@ extension CreateExibitionViewController:UICollectionViewDelegate,UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == ADD_PLANT_SECTION {
-            let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! AddPlantCollectionCell
+            let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: AddPlantCollectionCell.cellIdentifier, for: indexPath) as! AddPlantCollectionCell
             return addCell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlantCollectionCell.cellIdentifier, for: indexPath) as! PlantCollectionCell
@@ -206,24 +250,25 @@ extension CreateExibitionViewController:UICollectionViewDelegate,UICollectionVie
         
         if indexPath.section == PLANT_LIST_SECTION {
             let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
-                     let view = UIAction(title: "View Description"){ (handler) in
-                         print("this is view")
-                     }
-                    view.image = UIImage(systemName: "eye.fill")
-                     
-                     let delete = UIAction(title: "Delete Plant") { (handler) in
-                         print("this is delete")
-                     }
-                    delete.image = UIImage(systemName: "trash.fill")
-                     
-                     return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline , children: [view,delete])
-                 }
-              return configuration
+                let view = UIAction(title: "View Description"){ (handler) in
+                    self.segueToPlantdetailsViewcontroller(plantDescription: self.plantsForExibitionList[indexPath.row])
+                }
+                view.image = UIImage(systemName: "eye.fill")
+                
+                let delete = UIAction(title: "Delete Plant") { (handler) in
+                    self.plantsForExibitionList.remove(at: indexPath.row)
+                    //self.plantCollectionView.reloadData()
+                    self.plantCollectionView.performBatchUpdates({
+                        self.plantCollectionView.deleteItems(at: [indexPath])
+                    }, completion: nil)
+                }
+                delete.image = UIImage(systemName: "trash.fill")
+                return UIMenu(title: "Options", image: nil, identifier: nil, options: .displayInline , children: [view,delete])
+            }
+            return configuration
         }
         return nil
     }
-    
-    
 }
 
 //MARK:- Adding Exibition
@@ -234,11 +279,9 @@ extension CreateExibitionViewController:AddExibitionDelegate{
         exibitionMapView.addAnnotation(exibitionAnnotation)
         exibitionMapView.setRegion(MKCoordinateRegion(center: exibitionAnnotation.coordinate , latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
         
-        latitudeTextLabel.text = "Lat: \(String(format: "%.2f", exibitionAnnotation.coordinate.latitude))"
-        longitudeTextLabel.text = "Long: \(String(format:"%.2f",exibitionAnnotation.coordinate.longitude))"
+        //latitudeTextLabel.text = "Lat: \(String(format: "%.2f", exibitionAnnotation.coordinate.latitude))"
+        //longitudeTextLabel.text = "Long: \(String(format:"%.2f",exibitionAnnotation.coordinate.longitude))"
     }
-    
-    
 }
 
 
@@ -246,7 +289,18 @@ extension CreateExibitionViewController:AddExibitionDelegate{
 extension CreateExibitionViewController:AddPlantDelegate{
     func addPlantForSelection(data:PlantDescription) {
         plantsForExibitionList.insert(data, at: 0)
-        collectionViewController.reloadData()
+        plantCollectionView.reloadData()
+    }
+    
+}
+
+//MARK:- Textfield delegates
+extension CreateExibitionViewController:UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        exibitionNameTextField.resignFirstResponder()
+        exibitiondescriptionTextField.resignFirstResponder()
+        return true
     }
     
 }

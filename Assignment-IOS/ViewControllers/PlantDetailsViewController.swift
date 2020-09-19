@@ -13,6 +13,7 @@ import UIKit
 class PlantDetailsViewController:UIViewController{
     
     var plant:Plants?
+    var plantDescription:PlantDescription?
     @IBOutlet weak var plantNameLabel: UILabel!
     @IBOutlet weak var plantScientificNameLabel: UILabel!
     @IBOutlet weak var plantYearOfDiscoveryLabel: UILabel!
@@ -26,12 +27,22 @@ class PlantDetailsViewController:UIViewController{
     }
     
     func setData(){
-        plantNameLabel.text = plant?.plantName
-        plantScientificNameLabel.text = plant?.plantScientificName
-        plantYearOfDiscoveryLabel.text = plant?.plantYearOfDiscovery
-        plantFamilyLabel.text = plant?.plantFamily
-        plantImageView.setRounded()
-        Utilities.fetchImage(imageView:plantImageView, url: plant?.plantImageURL)
+        
+        if plantDescription == nil {
+            plantScientificNameLabel.text = plant?.plantScientificName
+            plantYearOfDiscoveryLabel.text = plant?.plantYearOfDiscovery
+            plantFamilyLabel.text = plant?.plantFamily
+            Utilities.fetchImage(imageView:plantImageView, url: plant?.plantImageURL)
+            self.title = plant?.plantName
+        }else {
+            plantScientificNameLabel.text = plantDescription?.scientificName
+            plantFamilyLabel.text = plantDescription?.plantFamily
+            Utilities.fetchImage(imageView:plantImageView, url: plantDescription?.imageURL)
+            self.title = plantDescription?.commonName
+            guard let year = plantDescription?.yearOfDescovery else { return }
+            plantYearOfDiscoveryLabel.text = "\(year)"
+        }
+        //plantNameLabel.text = plant?.plantName
     }
 
 }

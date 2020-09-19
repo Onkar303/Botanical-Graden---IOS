@@ -215,13 +215,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Create Exibition" id="oPQ-aS-bDE"/>
                     <connections>
-                        <outlet property="collectionViewController" destination="HG7-FJ-zd7" id="645-Eu-hFA"/>
                         <outlet property="exhibitionImageView" destination="z2c-ep-St7" id="F4D-Gi-3Oi"/>
                         <outlet property="exibitionMapView" destination="2MZ-qH-W69" id="QGu-g9-4id"/>
                         <outlet property="exibitionNameTextField" destination="ugE-wY-QgB" id="hxr-Hg-30a"/>
                         <outlet property="exibitiondescriptionTextField" destination="mWj-Qd-8aK" id="A3z-SZ-aAh"/>
                         <outlet property="latitudeTextLabel" destination="JpG-n9-qqb" id="h2M-Jn-M1h"/>
                         <outlet property="longitudeTextLabel" destination="n7c-mi-a6b" id="1S6-HK-bOQ"/>
+                        <outlet property="plantCollectionView" destination="HG7-FJ-zd7" id="645-Eu-hFA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="scA-0p-BZx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
