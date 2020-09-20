@@ -47,6 +47,11 @@
                         <viewLayoutGuide key="safeArea" id="uR4-rP-EXh"/>
                     </view>
                     <navigationItem key="navigationItem" id="6h3-8s-1eN">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="location" catalog="system" id="Rmc-0v-WLa">
+                            <connections>
+                                <action selector="showUserLocation:" destination="PHf-xm-KN2" id="MRy-Dk-gsG"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="plus" catalog="system" id="ztH-v6-qOF">
                                 <connections>
@@ -91,6 +96,7 @@
     </scenes>
     <resources>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
+        <image name="location" catalog="system" width="128" height="115"/>
         <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>

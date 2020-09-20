@@ -32,9 +32,11 @@ class PlantDetailsViewController:UIViewController{
             plantScientificNameLabel.text = plant?.plantScientificName
             plantYearOfDiscoveryLabel.text = plant?.plantYearOfDiscovery
             plantFamilyLabel.text = plant?.plantFamily
+            plantDescriptionLabel.text = plant?.plantGenus
             Utilities.fetchImage(imageView:plantImageView, url: plant?.plantImageURL)
             self.title = plant?.plantName
         }else {
+            plantDescriptionLabel.text = plantDescription?.genus
             plantScientificNameLabel.text = plantDescription?.scientificName
             plantFamilyLabel.text = plantDescription?.plantFamily
             Utilities.fetchImage(imageView:plantImageView, url: plantDescription?.imageURL)

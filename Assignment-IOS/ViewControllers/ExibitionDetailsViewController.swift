@@ -39,8 +39,10 @@ class ExibitionDetailsViewController:UIViewController{
         //exibitionNameLabel.text = exibition?.exibitionName
         exibitionDescriptionLabel.text = exibition?.exibitionDescription
         exibitionMapView.addAnnotation(exibitionAnnotation!)
-        exibitionImageView.image = UIImage(data: (exibition?.exibitionImage)!)
         exibitionPlantList.append(contentsOf:exibition?.plant?.allObjects as! [Plants])
+        guard let exibitionImage = exibition?.exibitionImage else {return}
+        exibitionImageView.image = UIImage(data: exibitionImage)
+        
         
     }
     

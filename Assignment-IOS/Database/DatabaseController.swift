@@ -66,7 +66,7 @@ class DatabaseController:NSObject{
             plant.plantSlug = data.slug
             plant.plantImageURL = data.imageURL
             plant.plantScientificName = data.scientificName
-            plant.plantYearOfDiscovery = "\(data.yearOfDescovery!)"
+            plant.plantYearOfDiscovery = "\(data.yearOfDescovery ?? 1500)"
             exibition.addToPlant(plant)
         })
     }

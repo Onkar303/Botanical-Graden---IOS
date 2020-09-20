@@ -29,7 +29,6 @@ class HomeViewController:UIViewController{
         super.viewWillAppear(animated)
         locationManager.requestWhenInUseAuthorization()
         checkAutorization()
-        print("viewWillAppers")
     }
     
     //MARK:- CHECK AUTHORIZATION
@@ -71,9 +70,7 @@ class HomeViewController:UIViewController{
     func addAnnotation(){
         gardenMapView.removeAnnotations(gardenMapView.annotations)
         let databaseController = (UIApplication.shared.delegate as! AppDelegate).databaseController
-        
         allExibitions = databaseController?.fetchAllExibitions() as! [Exibition]
-        
         allExibitions.forEach { (exibition) in
             let exibitionAnnotation = MKPointAnnotation()
             exibitionAnnotation.title = exibition.exibitionName
@@ -127,6 +124,10 @@ class HomeViewController:UIViewController{
         self.navigationController?.pushViewController(exibitionDetailsController, animated: true)
     }
     
+    @IBAction func showUserLocation(_ sender: UIBarButtonItem) {
+        gardenMapView.showsUserLocation = true
+        locationManager.startUpdatingLocation()
+    }
     
     func retriveExibition(coordinate:CLLocationCoordinate2D) -> Exibition? {
         var searchedExibition:Exibition?
@@ -154,11 +155,8 @@ func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnota
     guard !annotation.isKind(of: MKUserLocation.self) else {
             return nil
         }
-
-        let annotationIdentifier = "AnnotationIdentifier"
-
+    let annotationIdentifier = "AnnotationIdentifier"
     var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
             annotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
@@ -180,21 +178,15 @@ extension HomeViewController:CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let coordinate = locations.last?.coordinate else {return}
-        
-        if !setFocus {
             gardenMapView.setRegion(MKCoordinateRegion(center:coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
-            setFocus = true
-        }
+            locationManager.stopUpdatingLocation()
     }
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkAutorization()
-        
     }
-    
 }
-
 
 extension HomeViewController:FocusDelegate{
     func focusOnLocation(annotation: MKPointAnnotation) {
@@ -204,11 +196,6 @@ extension HomeViewController:FocusDelegate{
 }
 
 extension HomeViewController{
-    
-    func addDeaultAnnotations(){
-        
-    }
-    
 }
 
 
