@@ -6,6 +6,8 @@
 //  Copyright © 2020 Onkar. All rights reserved.
 //
 
+//This View Controller controllers the mapView and location . There by default 5 default exibitions.
+
 import Foundation
 import UIKit
 import MapKit
@@ -21,15 +23,10 @@ class HomeViewController:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-      
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         locationManager.requestWhenInUseAuthorization()
         checkAutorization()
     }
+    
     
     //MARK:- CHECK AUTHORIZATION
     func checkAutorization(){
@@ -61,7 +58,6 @@ class HomeViewController:UIViewController{
         gardenMapView.showsUserLocation = true
         gardenMapView.delegate = self
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
     }
@@ -124,11 +120,13 @@ class HomeViewController:UIViewController{
         self.navigationController?.pushViewController(exibitionDetailsController, animated: true)
     }
     
+    //MARK:- Sshowing user location
     @IBAction func showUserLocation(_ sender: UIBarButtonItem) {
         gardenMapView.showsUserLocation = true
         locationManager.startUpdatingLocation()
     }
     
+    //MARK:-retrive exibitionData
     func retriveExibition(coordinate:CLLocationCoordinate2D) -> Exibition? {
         var searchedExibition:Exibition?
         allExibitions.forEach { (exibition) in
@@ -151,28 +149,6 @@ extension HomeViewController:MKMapViewDelegate{
 }
 
 
-func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-    guard !annotation.isKind(of: MKUserLocation.self) else {
-            return nil
-        }
-    let annotationIdentifier = "AnnotationIdentifier"
-    var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            annotationView!.canShowCallout = true
-        }
-        else {
-            annotationView!.annotation = annotation
-        }
-
-        annotationView!.image = UIImage(named: "Image")
-
-        return annotationView
-}
-
-
-
 
 extension HomeViewController:CLLocationManagerDelegate{
     
@@ -188,10 +164,12 @@ extension HomeViewController:CLLocationManagerDelegate{
     }
 }
 
+//MARK:- Retriving data from ALL Exibition screen
 extension HomeViewController:FocusDelegate{
     func focusOnLocation(annotation: MKPointAnnotation) {
         gardenMapView.addAnnotation(annotation)
-        gardenMapView.setRegion(MKCoordinateRegion(center:annotation.coordinate, latitudinalMeters: 3000, longitudinalMeters: 3000), animated: true)
+        gardenMapView.setRegion(MKCoordinateRegion(center:annotation.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
+        
     }
 }
 

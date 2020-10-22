@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+
+// Retrived from URL:https://www.youtube.com/watch?v=y-Tk7biMlOM&t=478s&ab_channel=MayankGupta
+
 @IBDesignable class cardView:UIView{
     
     @IBInspectable var cornerRadius:CGFloat = CGFloat(Constants.CORNER_RAIUS)

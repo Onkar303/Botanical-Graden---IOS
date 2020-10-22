@@ -6,6 +6,8 @@
 //  Copyright © 2020 Onkar. All rights reserved.
 //
 
+//MARK:- Please note that Collection view cell are configured with context view , do give it a try  and this view controller is used for making new exibitions
+
 import Foundation
 import UIKit
 import MapKit
@@ -17,8 +19,8 @@ class CreateExibitionViewController:UIViewController{
     @IBOutlet weak var exibitionNameTextField: UITextField!
     @IBOutlet weak var exhibitionImageView: UIImageView!
     @IBOutlet weak var plantCollectionView: UICollectionView!
-    @IBOutlet weak var longitudeTextLabel: UILabel!
-    @IBOutlet weak var latitudeTextLabel: UILabel!
+    //@IBOutlet weak var longitudeTextLabel: UILabel!
+    //@IBOutlet weak var latitudeTextLabel: UILabel!
     
     var annotation:MKAnnotation?
     var plantsForExibitionList = [PlantDescription]()
@@ -36,7 +38,8 @@ class CreateExibitionViewController:UIViewController{
         addTapGestureToImage(view: exhibitionImageView)
         addTapGestureForMap(view: exibitionMapView)
         attactDelegates()
-        configureImage()
+        configureUI()
+        //configureImage()
         //configureMap()
         
     }
@@ -78,6 +81,13 @@ class CreateExibitionViewController:UIViewController{
             self.navigationController?.popViewController(animated: true)
         }
         
+        
+    }
+    
+    func configureUI(){
+        
+        exibitionMapView.layer.cornerRadius = CGFloat(Constants.CORNER_RAIUS)
+        plantCollectionView.layer.cornerRadius = CGFloat(Constants.CORNER_RAIUS)
         
     }
     

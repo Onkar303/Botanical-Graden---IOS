@@ -6,6 +6,9 @@
 //  Copyright © 2020 Onkar. All rights reserved.
 //
 
+
+//MARK:- You can delete the cell by swiping right and click them will make you go to the mapView
+
 import Foundation
 import UIKit
 import MapKit
@@ -97,6 +100,7 @@ class AllExibitionViewController:UIViewController{
         allExibitionTableView.reloadData()
     }
     
+    //MARK:- Formatting the date
     func formatDate(date:Date?) -> String{
         guard let date = date else {return "0/0/0000"}
         let dateFormatter = DateFormatter()
@@ -152,6 +156,7 @@ extension AllExibitionViewController:UITableViewDelegate,UITableViewDataSource{
         navigationController?.popViewController(animated: true)
     }
     
+    //MARK:- Returning point annotation
     func getAnnotation(exibition:Exibition)-> MKPointAnnotation{
         let pointAnnotation = MKPointAnnotation()
         pointAnnotation.coordinate = CLLocationCoordinate2D(latitude:exibition.latitude, longitude: exibition.longitude)

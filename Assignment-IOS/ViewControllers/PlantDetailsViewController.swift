@@ -26,6 +26,7 @@ class PlantDetailsViewController:UIViewController{
         setData()
     }
     
+    //MARK:- Setting data
     func setData(){
         
         if plantDescription == nil {
